@@ -1,7 +1,7 @@
 alpha=path
-alpha 1.5="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/CHO_Acq_95_27_norm_1.5a.csv"
-alpha 10="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/CHO_Acq_95_27_norm_10a.csv"
-alpha 15="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/CHO_Acq_95_27_norm_15a.csv"
-alpha 20="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/CHO_Acq_95_27_norm_20a.csv"
-alpha 30="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/CHO_Acq_95_27_norm_30a.csv"
-human curve="C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/SID95_FOV27_NORM/Hum_Acq_95_27_norm_CD_CM_1_12.csv"
+alpha 1.5="~/SID95_FOV27_NORM/CHO_Acq_95_27_norm_1.5a.csv"
+alpha 10="~/SID95_FOV27_NORM/CHO_Acq_95_27_norm_10a.csv"
+alpha 15="~/SID95_FOV27_NORM/CHO_Acq_95_27_norm_15a.csv"
+alpha 20="~/SID95_FOV27_NORM/CHO_Acq_95_27_norm_20a.csv"
+alpha 30="~/SID95_FOV27_NORM/CHO_Acq_95_27_norm_30a.csv"
+human curve="~/SID95_FOV27_NORM/Hum_Acq_95_27_norm_CD_CM_1_12.csv"

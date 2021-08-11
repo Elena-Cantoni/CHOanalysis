@@ -1,17 +1,31 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt #for plotting
-
+import os.path
 
 
 #csv about nominal diameter and contrast and human 75% contrast visibility
-txt_acq_95_27_norm = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/cd_acq_95_27_norm.txt"
-txt_acq_95_22_norm = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/cd_acq_95_22_norm.txt"
-txt_acq_95_22_med = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data/cd_acq_95_22_med.txt"
-txt_acq14_5_12 = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/cd_acq14_5_12.txt"
-files = pd.read_csv(txt_acq_95_27_norm, delimiter = "=")
+txt_acq_95_27_norm  = "~/cd_acq_95_27_norm.txt"
+txt_acq_95_22_norm = "~/cd_acq_95_22_norm.txt"
+txt_acq_95_22_med = "~/cd_acq_95_22_med.txt"
+txt_FL_LAAG_0001 = "~/cd_FL_LAAG_0001.txt"
+txt_FL_LAAG_0002 = "~/cd_FL_LAAG_0002.txt"
+txt_CORO_LAAG_0003 = "~/cd_CORO_LAAG_0003.txt"
+#txt_acq14_5_12 = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/cd_acq14_5_12.txt"
+
+#change the following path with the folder local path on your personal computer
+local_path = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data"
+
+files = pd.read_csv(txt_FL_LAAG_0002, delimiter = "=")
 path = [files['path']]
 path = path[0]
+
+for n_p in range(0,len(path)):
+    p = os.path.expanduser(path[n_p])
+    
+    os.environ["HOME"] = local_path
+    p = os.path.expanduser(path[n_p])
+    files['path'][n_p] = p
 
 path_s = [np.append(['diam'],[files['alpha']])] 
 path_s = path_s[0]

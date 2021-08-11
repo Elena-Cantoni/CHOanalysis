@@ -1,0 +1,8 @@
+alpha=path
+alpha 2.5="~/FL_LAAG_0001/CHO_FL_LAAG_0001_2e5a.csv"
+alpha 5="~/FL_LAAG_0002/CHO_FL_LAAG_0002_5a.csv"
+alpha 10="~/FL_LAAG_0002/CHO_FL_LAAG_0002_10a.csv"
+alpha 15="~/FL_LAAG_0002/CHO_FL_LAAG_0002_15a.csv"
+alpha 20="~/FL_LAAG_0002/CHO_FL_LAAG_0002_20a.csv"
+alpha 30="~/FL_LAAG_0002/CHO_FL_LAAG_0002_30a.csv"
+human curve="~/FL_LAAG_0002/Hum_FL_LAAG_0002_CD_elena.csv"
