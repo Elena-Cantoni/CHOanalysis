@@ -1,9 +1,10 @@
 import sys
 #path where interactions between codes happen, change it with your local path
-sys.path.append('C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis')
+path_interaction = 'C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis'
+sys.path.append(path_interaction)
 import numpy as np
 import pandas as pd
-from Contrast_detail import files,df_alpha,a_val, path_s
+from Contrast_detail import files,df_alpha,a_val, path_s, alpha_s,human_s
 
 
 
@@ -92,13 +93,15 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
     curve_min_alpha = np.ndarray((len(dataset),len(list_humans)))
     print('Minimum distance curves:\n')
     n_hum = -1
-    for hum in np.array(list_humans):
+    for hum in np.array(files['alpha'][a_val:]):
         n_hum +=1
         min_index=dist_set[hum].idxmin()
         min_alpha = list_alphas[min_index]
+        print(min_alpha)
         min_dist =min(dist_set[hum])
         print(hum, ':\t',min_alpha,' curve',', distance:',min_dist)
         curve_min_alpha[:,n_hum]= dataset[min_alpha]
+        
         
     return curve_min_alpha
 
@@ -121,7 +124,7 @@ for humans in np.array(files['alpha'][a_val:]):
 
 #matrix and dataframe of weighted sum of distances
 sum_w_dist = np.ndarray((a_val,(len(files['alpha'])-a_val)))
-df_sum_w_dist  = pd.DataFrame(sum_w_dist ,columns=files['alpha'][a_val:])
+df_sum_w_dist  = pd.DataFrame(sum_w_dist ,columns=files['alpha'][a_val:])#files['alpha'][a_val:])
 #weighted sum loop
 for hum in range(0,(len(files['alpha'])-a_val)):
     #print('hum ',hum)
@@ -130,11 +133,14 @@ for hum in range(0,(len(files['alpha'])-a_val)):
         s = weighted_sum(df_alpha,1,distances[hum][col])
         #print(s)
         sum_w_dist[col][hum] = s
+        
+
 
 #definition of minimum alpha needed to have a CHO curve most similar to human curve for each observer
-protocol_curvemin = minimum(df_alpha,df_sum_w_dist,files['alpha'][a_val:], files['alpha'])
-    
-
+protocol_curvemin = minimum(df_alpha,df_sum_w_dist,human_s,alpha_s)#files['alpha'][a_val:], files['alpha'])
+df_protocol_curvemin = pd.DataFrame(protocol_curvemin)
+df_sum_w_dist.to_pickle(path_interaction +'/min_dist.pkl')    
+df_protocol_curvemin.to_pickle(path_interaction +'/protocol_curvemin.pkl') 
 
 
 
