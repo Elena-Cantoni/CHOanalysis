@@ -49,4 +49,30 @@ for human in np.array(files['alpha'][a_val:]):
         #corr = np.array(corr)
         #print(corr)
         m_correlation[hum,:,a] = corr
+        
+#3-D array filled with indexes of  the alpha-dependent CHO curves which minimize as much as possibile the distances with human reference curve. 
+min_index_curve = np.ndarray((len(files['alpha'])-a_val,),dtype=int)
+ind =-1
+    
+for hum in np.array(files['alpha'][a_val:]):
+    print(hum)
+    ind +=1    
+    min_index = sum_w_dist_pkl[hum].idxmin()
+    print(min_index)
+    min_index_curve[ind] = min_index
+    
+#matrix and dataframe of intercept and slope extracted parameters related to the minimizing CHO curve for each human curve 
+hum_linpar = np.ndarray((2,len(human_s)))
+df_hum_linpar = pd.DataFrame(hum_linpar,columns=human_s, index = ['slope','intercept'])    
+h = -1
+for z in range(0,len(files['alpha'])-a_val):
+    h +=1
+    slope = m_correlation[h][0][ min_index_curve[z]]
+    intercept = m_correlation[h][1][ min_index_curve[z]]
+    #print(m_correlation[h][0][ min_index_curve[z]])
+    #print(m_correlation[h][1][ min_index_curve[z]])
+    hum_linpar[0][h]=slope
+    hum_linpar[1][h]=intercept
+
+        
 
