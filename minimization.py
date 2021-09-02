@@ -93,7 +93,7 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
     curve_min_alpha = np.ndarray((len(dataset),len(list_humans)))
     print('Minimum distance curves:\n')
     n_hum = -1
-    for hum in np.array(files['alpha'][a_val:]):
+    for hum in list_humans:#np.array(files['alpha'][a_val:]):
         n_hum +=1
         min_index=dist_set[hum].idxmin()
         min_alpha = list_alphas[min_index]
@@ -103,7 +103,7 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
         curve_min_alpha[:,n_hum]= dataset[min_alpha]
         
         
-    return curve_min_alpha
+    return curve_min_alpha, min_alpha
 
 #matrix filled with distance estimation between CHO curve points and human curve points
 distances = np.ndarray((((len(files['alpha'])-a_val)),a_val,len(df_alpha)))
@@ -138,9 +138,12 @@ for hum in range(0,(len(files['alpha'])-a_val)):
 
 #definition of minimum alpha needed to have a CHO curve most similar to human curve for each observer
 protocol_curvemin = minimum(df_alpha,df_sum_w_dist,human_s,alpha_s)#files['alpha'][a_val:], files['alpha'])
-df_protocol_curvemin = pd.DataFrame(protocol_curvemin)
-df_sum_w_dist.to_pickle(path_interaction +'/min_dist.pkl')    
-df_protocol_curvemin.to_pickle(path_interaction +'/protocol_curvemin.pkl') 
+df_protocol_curvemin = pd.DataFrame(protocol_curvemin[0])
 
+#serialization of a Python object structure (dataframes), conversion into a byte stream.
+df_sum_w_dist.to_pickle(path_interaction +'/pkl/min_dist.pkl')    
+df_protocol_curvemin.to_pickle(path_interaction +'/pkl/protocol_curvemin.pkl') 
+files.to_pickle(path_interaction +'/pkl/files.pkl') 
+df_alpha.to_pickle(path_interaction +'/pkl/df_alpha.pkl')
 
 

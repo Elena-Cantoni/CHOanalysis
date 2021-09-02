@@ -16,7 +16,6 @@ txt_CORO_LAAG_0004 = "~/cd_CORO_LAAG_0004.txt"
 
 #change the following path with the folder local path on your personal computer
 local_path = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data"
-#local_path1 = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis"
 os.environ["HOME"] = local_path
 files = pd.read_csv(txt_CORO_LAAG_0004, delimiter = "=")
 path = [files['path']]
@@ -25,12 +24,21 @@ path = path[0]
 for n_p in range(0,len(path)):
     p = os.path.expanduser(path[n_p])
     
-    #os.environ["HOME"] = local_path
     p = os.path.expanduser(path[n_p])
     files['path'][n_p] = p
 
 path_s = [np.append(['diam'],[files['alpha']])] 
 path_s = path_s[0]
+
+for a in range(0,len(path_s)-1):
+    if "alpha" in path_s[a]:
+        a_val = path_s[a]
+        a_val = a
+
+alpha_s = [files['alpha'][:a_val]]
+alpha_s = alpha_s[0]
+human_s = [files['alpha'][a_val:]]
+human_s = human_s[0]
 
 # contrast matrix at different alpha
 m_contr = np.ndarray
@@ -52,17 +60,16 @@ for p in range(0,len(files['path'])):
 
 # contrast dataframe changing alpha, first col = diameters
 df_alpha = pd.DataFrame(m_contr, columns = path_s) 
-    
+
+
+
 # plotting
-for a in range(0,len(path_s)-1):
-    if "alpha" in path_s[a]:
-        a_val = path_s[a]
-        a_val = a
+
 
 fig,ax = plt.subplots(figsize=(12,9))
 for c_d in path_s[1:a_val+1]:# -1
     ax.plot(df_alpha['diam'],df_alpha[c_d],'--o')
-lin_col = ['red','blue','green','yellow']
+lin_col = ['red','blue','green','yellow','pink']
 colors = -1
 for c_d_h in path_s[(a_val+1):]:
     colors +=1
@@ -71,6 +78,7 @@ ax.set_title('Contrast-detail curve', fontsize=16,)
 ax.set_xlabel('Diameter (mm)',fontsize=12)
 ax.set_ylabel('Contrast',fontsize=12)
 ax.legend(path_s[1:],fontsize='x-large')
+#ax.set_ylim(0,0.15)
 plt.show()
 
 

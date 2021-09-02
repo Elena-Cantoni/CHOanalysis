@@ -1,7 +1,11 @@
 alpha=path
+alpha 0="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_0a.csv"
+alpha 1="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_1a.csv"
+alpha 1.5="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_1e5a.csv"
 alpha 2.5="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_2e5a.csv"
 alpha 5="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_5a.csv"
 alpha 10="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_10a.csv"
 alpha 15="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_15a.csv"
 alpha 20="~/CORO_LAAG_0003/CHO_CORO_LAAG_0003_20a.csv"
-human curve="~/CORO_LAAG_0003/Hum_CORO_LAAG_0003_CD_elena.csv"
+human curve M="~/CORO_LAAG_0003/Hum_CORO_LAAG_0003_CD_Marco.csv"
+human curve E2="~/CORO_LAAG_0003/Hum_CORO_LAAG_0003_CD_E2.csv"
