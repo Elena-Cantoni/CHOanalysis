@@ -171,3 +171,18 @@ plt.title('Linear fit, operation between points', fontsize=15)
 plt.xlabel('CHO minimum visible contrast', fontsize=15)
 plt.ylabel('Human minimum visible contrast', fontsize=15)
 plt.legend(fontsize=15)
+
+""" Plotting the mean CD curve with the relative points errorbars and the best associated CHO curve """
+
+fig,ax = plt.subplots(figsize=(12,9))
+lin_col = ['red','blue','green','yellow','pink']
+colors = -1
+for c_d_h in path_s[(a_val+1):]:
+    colors +=1
+    ax.plot(df_alpha['diam'],df_alpha[c_d_h],c = lin_col[colors],marker='o',linestyle='-', linewidth=3,alpha = 0.7)
+ax.plot(df_alpha['diam'],points_mean_std[:,0],c = 'black',marker='o',linestyle='-', markersize= 10,linewidth=4,label= 'averaged CD observer curve')
+ax.plot(df_alpha['diam'],df_alpha[points_curvemin[1]],'--o',c = 'orange', label='CHO ' + points_curvemin[1]+ ' curve')
+ax.errorbar(df_alpha['diam'],points_mean_std[:,0],points_mean_std[:,1],fmt ='.',ecolor='gray', elinewidth=3, capsize = 5)
+#ax.set_xlim(0.6,4.1)
+#ax.set_ylim(0,0.175)
+ax.legend(fontsize= 15)
