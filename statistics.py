@@ -107,7 +107,7 @@ for z in range(0,len(files['alpha'])-a_val):
 
 
 
-'''Mean and standard deviation between different human observations of the same image sample'''
+'''Mean and standard deviation between different human observations of the same image sample '''
 
 #matrix filled with mean and std of the same contrasted point seen by different observers
 points_mean_std = np.ndarray((len(df_alpha['diam']),2))
@@ -153,3 +153,21 @@ points_curvemin = minimum(df_alpha,df_points_sum_dist ,range(0,1),alpha_s)#files
 #correlation
 hum_points_corr = correlation(points_mean_std[:,0],df_alpha[points_curvemin[1]])
 
+""" Plotting the linearity between CHO minimum visible contrast points and human minimum visible contrast points, 
+#the error bar of each measure and the uncertainty of the fit are shown. """
+
+plt.figure(figsize=(10,8))
+plt.plot(df_alpha[points_curvemin[1]],hum_points_corr[0] *df_alpha[points_curvemin[1]]+hum_points_corr[1],c ='k', lw = 5, label = 'linear fit')
+plt.fill_between(df_alpha[points_curvemin[1]],((hum_points_corr[0]+hum_points_corr[2])*df_alpha[points_curvemin[1]]+hum_points_corr[1]),
+                 ((hum_points_corr[0]-hum_points_corr[2])*df_alpha[points_curvemin[1]]+ hum_points_corr[1]), color = 'darkgrey', alpha = 0.2, label= 'uncertainty region')
+plt.errorbar(df_alpha[points_curvemin[1]],points_mean_std[:,0],points_mean_std[:,1],fmt ='.',color='gray', elinewidth=3, capsize = 5)
+plt.plot(df_alpha[points_curvemin[1]],points_mean_std[:,0],'.',color = 'k',mew=4, markersize=12, label = 'averaged points')
+# lin_col = ['red','blue','green','yellow','pink']
+# h = -1
+# for curve in np.array(files['alpha'][a_val:]):
+#     h +=1
+#     plt.plot(df_protocol_curvemin_pkl[h] , df_alpha[curve],'X',c = lin_col[h], markersize=10,  label = curve)
+plt.title('Linear fit, operation between points', fontsize=15)
+plt.xlabel('CHO minimum visible contrast', fontsize=15)
+plt.ylabel('Human minimum visible contrast', fontsize=15)
+plt.legend(fontsize=15)
