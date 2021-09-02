@@ -10,10 +10,10 @@ from Contrast_detail import *#files,df_alpha,a_val,path_s,alpha_s,human_s
 from minimization import *#files, a_val,sum_w_dist,df_sum_w_dist
 
 path_interaction = 'C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis'
-df_sum_w_dist_pkl = pd.read_pickle(path_interaction + '/min_dist.pkl')    
-df_protocol_curvemin_pkl = pd.read_pickle(path_interaction + '/protocol_curvemin.pkl')
-files = pd.read_pickle(path_interaction + '/files.pkl')
-df_alpha = pd.read_pickle(path_interaction +'/df_alpha.pkl')
+df_sum_w_dist_pkl = pd.read_pickle(path_interaction + '/pkl/min_dist.pkl')    
+df_protocol_curvemin_pkl = pd.read_pickle(path_interaction + '/pkl/protocol_curvemin.pkl')
+files = pd.read_pickle(path_interaction + '/pkl/files.pkl')
+df_alpha = pd.read_pickle(path_interaction +'/pkl/df_alpha.pkl')
 #studying correlation between human and CHO model
 def correlation(ref, alphas):
     """
@@ -126,4 +126,30 @@ for points in range(0,len(df_alpha['diam'])):
     std = np.sqrt(sum(m_diff[points,:])/(len(human_s)-1))
     std_mean = std/np.sqrt(len(human_s)-1)
     points_mean_std[points,1] = std     
+    
+
+""" CHO curve which minimizes the mean observer curve """
+
+points_diff = np.ndarray((a_val,len(df_alpha)))
+n_col =-1
+for col in np.array(files['alpha'][:a_val]) :
+    n_col +=1
+    #print('numero colonna ',n_col,' ',col)
+    for row in range(0,len(df_alpha)):
+        #print('numero riga ',row)
+        dist = differences(df_alpha[col][row],points_mean_std [row,0])
+        points_diff[n_col][row]=dist 
+
+points_sum_dist = np.ndarray((a_val,1))
+df_points_sum_dist = pd.DataFrame(points_sum_dist)
+for col in range(0,a_val):#-1
+    #print('col ',col)
+    s = weighted_sum(df_alpha,1,points_diff[col])
+    #print(s)
+    points_sum_dist[col,0] = s
+        
+points_curvemin = minimum(df_alpha,df_points_sum_dist ,range(0,1),alpha_s)#files['alpha'][a_val:], files['alpha'])
+
+#correlation
+hum_points_corr = correlation(points_mean_std[:,0],df_alpha[points_curvemin[1]])
 
