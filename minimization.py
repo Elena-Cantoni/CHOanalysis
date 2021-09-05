@@ -4,8 +4,13 @@ path_interaction = 'C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and 
 sys.path.append(path_interaction)
 import numpy as np
 import pandas as pd
-from Contrast_detail import files,df_alpha,a_val, path_s, alpha_s,human_s
+import Contrast_detail
+#from Contrast_detail import path_interaction,a_val, path_s, alpha_s,human_s
 
+
+#depickling
+files = pd.read_pickle(path_interaction + '/pkl/files.pkl')
+df_alpha = pd.read_pickle(path_interaction +'/pkl/df_alpha.pkl')
 
 
 
@@ -106,14 +111,14 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
     return curve_min_alpha, min_alpha
 
 #matrix filled with distance estimation between CHO curve points and human curve points
-distances = np.ndarray((((len(files['alpha'])-a_val)),a_val,len(df_alpha)))
+distances = np.ndarray((((len(files['alpha'])-a_val)),Contrast_detail.a_val,len(df_alpha)))
 # loops to fill the matrix with the distances between human and CHO measurement for each human respectively
 n_hum = -1
-for humans in np.array(files['alpha'][a_val:]):
+for humans in np.array(files['alpha'][Contrast_detail.a_val:]):
     n_hum +=1
     #print('numero umano ',n_hum)
     n_col = -1
-    for col in np.array(files['alpha'][:a_val]) :
+    for col in np.array(files['alpha'][:Contrast_detail.a_val]) :
         n_col +=1
         #print('numero colonna ',n_col,' ',col)
         for row in range(0,len(df_alpha)):
@@ -123,12 +128,12 @@ for humans in np.array(files['alpha'][a_val:]):
             
 
 #matrix and dataframe of weighted sum of distances
-sum_w_dist = np.ndarray((a_val,(len(files['alpha'])-a_val)))
-df_sum_w_dist  = pd.DataFrame(sum_w_dist ,columns=files['alpha'][a_val:])#files['alpha'][a_val:])
+sum_w_dist = np.ndarray((Contrast_detail.a_val,(len(files['alpha'])-Contrast_detail.a_val)))
+df_sum_w_dist  = pd.DataFrame(sum_w_dist ,columns=files['alpha'][Contrast_detail.a_val:])#files['alpha'][a_val:])
 #weighted sum loop
-for hum in range(0,(len(files['alpha'])-a_val)):
+for hum in range(0,(len(files['alpha'])-Contrast_detail.a_val)):
     #print('hum ',hum)
-    for col in range(0,a_val):#-1
+    for col in range(0,Contrast_detail.a_val):#-1
         #print('col ',col)
         s = weighted_sum(df_alpha,1,distances[hum][col])
         #print(s)
@@ -137,13 +142,13 @@ for hum in range(0,(len(files['alpha'])-a_val)):
 
 
 #definition of minimum alpha needed to have a CHO curve most similar to human curve for each observer
-protocol_curvemin = minimum(df_alpha,df_sum_w_dist,human_s,alpha_s)#files['alpha'][a_val:], files['alpha'])
+print('Acquisition ', txt[5:][:-4])
+protocol_curvemin = minimum(df_alpha,df_sum_w_dist,Contrast_detail.human_s,Contrast_detail.alpha_s)#files['alpha'][a_val:], files['alpha'])
 df_protocol_curvemin = pd.DataFrame(protocol_curvemin[0])
 
 #serialization of a Python object structure (dataframes), conversion into a byte stream.
 df_sum_w_dist.to_pickle(path_interaction +'/pkl/min_dist.pkl')    
 df_protocol_curvemin.to_pickle(path_interaction +'/pkl/protocol_curvemin.pkl') 
-files.to_pickle(path_interaction +'/pkl/files.pkl') 
-df_alpha.to_pickle(path_interaction +'/pkl/df_alpha.pkl')
+
 
 

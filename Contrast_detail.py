@@ -12,12 +12,15 @@ txt_FL_LAAG_0001 = "~/cd_FL_LAAG_0001.txt"
 txt_FL_LAAG_0002 = "~/cd_FL_LAAG_0002.txt"
 txt_CORO_LAAG_0003 = "~/cd_CORO_LAAG_0003.txt"
 txt_CORO_LAAG_0004 = "~/cd_CORO_LAAG_0004.txt"
+txt_FL_MEDIUM_0005 = "~/cd_FL_MEDIUM_0005.txt"
 #txt_acq14_5_12 = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/cd_acq14_5_12.txt"
 
 #change the following path with the folder local path on your personal computer
+path_interaction = 'C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis'
 local_path = "C://Users/canto/Google Drive/UNIBO MAGISTRALE_/Software and computing for applied physics/CHOanalysis/data"
-os.environ["HOME"] = local_path
-files = pd.read_csv(txt_CORO_LAAG_0004, delimiter = "=")
+os.environ["USERPROFILE"] = local_path
+txt = txt_CORO_LAAG_0004
+files = pd.read_csv(txt, delimiter = "=")
 path = [files['path']]
 path = path[0]
 
@@ -61,7 +64,9 @@ for p in range(0,len(files['path'])):
 # contrast dataframe changing alpha, first col = diameters
 df_alpha = pd.DataFrame(m_contr, columns = path_s) 
 
-
+#pickling
+files.to_pickle(path_interaction +'/pkl/files.pkl') 
+df_alpha.to_pickle(path_interaction +'/pkl/df_alpha.pkl')
 
 # plotting
 
@@ -74,7 +79,7 @@ colors = -1
 for c_d_h in path_s[(a_val+1):]:
     colors +=1
     ax.plot(df_alpha['diam'],df_alpha[c_d_h],c = lin_col[colors],marker='o',linestyle='-', linewidth=3)
-ax.set_title('Contrast-detail curve', fontsize=16,)
+ax.set_title('Contrast-detail curve '+ txt[5:][:-4], fontsize=16,)
 ax.set_xlabel('Diameter (mm)',fontsize=12)
 ax.set_ylabel('Contrast',fontsize=12)
 ax.legend(path_s[1:],fontsize='x-large')
