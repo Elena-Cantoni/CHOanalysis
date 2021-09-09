@@ -147,7 +147,7 @@ points_sum_dist = np.ndarray((Contrast_detail.a_val,1))
 df_points_sum_dist = pd.DataFrame(points_sum_dist)
 for col in range(0,Contrast_detail.a_val):#-1
     #print('col ',col)
-    s = weighted_sum(df_alpha,1,points_diff[col])
+    s = weighted_sum(points_diff[col])
     #print(s)
     points_sum_dist[col,0] = s
         
