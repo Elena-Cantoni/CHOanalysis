@@ -1,5 +1,8 @@
 import os
+import sys
 path_interaction = os.path.dirname(os.path.abspath(__file__))
+if path_interaction not in sys.path:
+    sys.path.append(path_interaction)
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -39,10 +42,10 @@ min_index_curve = np.ndarray((len(files['alpha'])-int(num_alpha),),dtype=int)
 ind =-1
     
 for hum in np.array(files['alpha'][int(num_alpha):]):
-    print(hum)
+    #print(hum)
     ind +=1    
     min_index = df_sum_w_dist[hum].idxmin()
-    print(min_index)
+    #print(min_index)
     min_index_curve[ind] = min_index
     
 #matrix and dataframe of intercept and slope extracted parameters related to the minimizing CHO curve for each human curve 
