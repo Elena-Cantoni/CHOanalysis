@@ -1,8 +1,0 @@
-alpha=path
-alpha 1.5="~/SID95_FOV22_MED/CHO_Acq_95_22_med_1.5a.csv"
-alpha 5="~/SID95_FOV22_MED/CHO_Acq_95_22_med_5a.csv"
-alpha 10="~/SID95_FOV22_MED/CHO_Acq_95_22_med_10a.csv"
-alpha 15="~/SID95_FOV22_MED/CHO_Acq_95_22_med_15a.csv"
-alpha 20="~/SID95_FOV22_MED/CHO_Acq_95_22_med_20a.csv"
-alpha 30="~/SID95_FOV22_MED/CHO_Acq_95_22_med_30a.csv"
-human curve="~/SID95_FOV22_MED/Hum_Acq_95_22_med_CD_CM_1_12.csv"
