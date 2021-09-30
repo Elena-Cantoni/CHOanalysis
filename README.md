@@ -1,3 +1,4 @@
+
 # CHOanalysis
 
 ## Table of Contents
@@ -35,18 +36,19 @@ In order to use this code to create Contrast-detail curves and to make an analys
  
 	 - Main script codes: **'Contrast_detail.py'**, **'minimization.py'**, **'Statistics.py'**.
 	 - Functions code: **'functions.py'**.
+	 - Functions documentation: **'functions.md**
 	 - Testing codes: 
 		> - **'basic_tests.py'** which includes every function test with prectical examples and values.
 		>
 		> -  **'tests.py'** that tests all the function using strategies defined in hypothesis library.
 	 - Folders: 
 		>- **'data'** is filled with .txt files where you can find the path of each .csv file inside the csv folders included in 'data'. Csv files need two columns; it is necessary that the first one is named *'Nominal Diameter (mm)'* and at least 9 rows and at most 12. Txt files must be organized as follow:
-			>```
-			>alpha = path
-			>alpha (...) = "~/csvFolder/csvFilealpha"
-			>...
-			>human (...) = "~/csvFolder/csvfilehuman"
-			>```
+			```
+			alpha = path
+			alpha (...) = "~/csvFolder/csvFilealpha"
+			...
+			human (...) = "~/csvFolder/csvFilehuman"
+			```
 					             
 		>- **'pkl'** contains .pkl and .npy files saved during the code execution.
 		
@@ -55,8 +57,8 @@ In order to use this code to create Contrast-detail curves and to make an analys
 	 >ii. minimization.py
 	 >iii. Statistics.py 
 	 
-	 Running Contrast_detail.py, two dialog windows are opened. The first one requires the selection of the local directory where finding data (.txt, .csv). An example is given choosing 'data' folder in CHOanalysis directory. The second dialog window wants  the .txt file chosen as input for the code. 
-
+	 Running Contrast_detail.py, two dialog windows are opened. The first one requires the selection of the local directory where finding data (.txt, .csv). An example is given choosing 'data' folder in CHOanalysis directory. The second dialog window wants  the .txt file chosen as input for the code. From the given dataset choose .txt file in 'data folder. Then, before continuing, press the "continue" button in the tk dialogue box.
+	 
 4. Enjoy the results and how the project works.
 
 ## Limitations
