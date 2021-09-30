@@ -23,7 +23,7 @@ def differences(cho_point, hum_point):
     return diff
 
 
-def weighted_sum (dist):#weight
+def weighted_sum (weight,dist):#weight
     """
     
     Makes a weighted sum of all the distances between two curves
@@ -31,7 +31,8 @@ def weighted_sum (dist):#weight
     Parameters
     ----------
     
-    dist :  pandas dataframe distance row
+    weight = float weighting value
+    dist :  matrix distance row
 
     Returns
     -------
@@ -60,8 +61,8 @@ def weighted_sum (dist):#weight
     #     w_element = mean_centr/dist[w]
     #     weights = [np.append(weights,w_element)]
     # weights = np.delete(weights[0],0)  
-    # d_ext = sum(weight*dist[ind_ex]) 
-    d_ext = len(ind_ex)*mean_centr
+    d_ext = sum(weight*dist[ind_ex]) 
+    #d_ext = len(ind_ex)*mean_centr
     d_tot = d_centr+d_ext 
     
     return d_tot
@@ -76,8 +77,8 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
     ----------
     dataset : CD curve dataframe
     dist_set : dataframe of weighted distance sums
-    list_humans : list of the title names of the observer curves
-    list_alphas : list of the title names of the different CHO curves with different alpha
+    list_humans : series of the title names of the observer curves
+    list_alphas : series of the title names of the different CHO curves with different alpha
 
     Returns
     -------
@@ -106,8 +107,8 @@ def correlation(human_ref, alphas):
 
     Parameters
     ----------
-    human_ref : human curve datasets
-    alphas : CHO curve datasets (column) with different alpha
+    human_ref : human curve dataset column
+    alphas : CHO curve dataset column with specific alpha    
 
     Returns
     -------
@@ -120,7 +121,7 @@ def correlation(human_ref, alphas):
     slope, intercept, r_value, p_value, std_err = linregress(alphas,human_ref)
     return  slope, intercept, std_err, r_value, p_value
 
-
+#not used
 def fit_correlation (m,x,q, test):
     """
     Extracts the linear fit between Observer and preferred CHO curve using the slope and intercept parameters. 
@@ -145,3 +146,7 @@ def fit_correlation (m,x,q, test):
     mean_std = np.mean(m[2,:])
         
     return y, mean_m, mean_q, mean_std
+
+def somma (a,b):
+    somm=a+b
+    return somm
