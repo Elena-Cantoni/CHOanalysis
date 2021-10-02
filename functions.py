@@ -100,27 +100,43 @@ def minimum (dataset, dist_set, list_humans, list_alphas):
     return curve_min_alpha
 
 
-def correlation(human_ref, alphas):
+def correlation(h_dataset, a_dataset, humans, alphas):
     """
     Estimates the correlation parameters obtained between human and CHO model response. 
-    A least-squares regression method is used
+    A least-squares regression method is used.
+    The results are collected in a matrix.
 
     Parameters
     ----------
-    human_ref : human curve dataset column
-    alphas : CHO curve dataset column with specific alpha    
+    h_dataset : CD human curve dataframe
+    a_dataset : CD CHO curve dataframe
+    humans : series of the title names of the observer curves
+    alphas : series of the title names of the different CHO curves with different alpha
 
     Returns
     -------
-    slope : Slope of the regression line
-    intercept : Intercept of the regression line
-    r_value : Correlation factor
-    std_err : Standard Deviation of the estimated slope
+    corr : 3-D matrix containing correlation parameters (n° humans, n° parameters,°n alphas)
 
     """
-    slope, intercept, r_value, p_value, std_err = linregress(alphas,human_ref)
-    return  slope, intercept, std_err, r_value, p_value
-
+    #if len(humans),len(alphas) >1
+    corr = np.ndarray(
+    (((len(humans))), 5, len(alphas)))
+#alpha_s = np.ndarray((Contrast_detail.num_alpha,),object)
+    hum = -1
+    for h in humans:
+        hum += 1
+        al =-1
+        for a in alphas:
+            al += 1
+            #col_alpha = dataset[a]
+            #print(col_alpha)
+            #alpha_s[a] = alpha
+            slope, intercept, r_value, p_value, std_err = linregress(a_dataset[a],h_dataset[h])
+            parameters = (slope, intercept, r_value, p_value, std_err)
+            corr[hum, :, al] = parameters
+    
+    # slope, intercept, r_value, p_value, std_err = linregress(alphas,human_ref)
+    return  corr
 #not used
 def fit_correlation (m,x,q, test):
     """
@@ -147,6 +163,3 @@ def fit_correlation (m,x,q, test):
         
     return y, mean_m, mean_q, mean_std
 
-def somma (a,b):
-    somm=a+b
-    return somm
