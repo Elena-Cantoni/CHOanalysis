@@ -70,20 +70,30 @@ The execution returns a matrix organized in n° humans columns, each column repre
 7|1.230404822480749977e-01|8.378957522874870556e-02|1.230404822480749977e-01
 8|1.811841482293879979e-01|1.147752190135419986e-01|1.811841482293879979e-01
 
-## `correlation(human_ref, alphas)`
+## `correlation(h_dataset, a_dataset, humans, alphas)`
 The function appears in *Statistics.py* module and it studies the correlation parameters estimated correlating human and CHO model response. 
 A  ``linregress`` module is used.
 #### Parameters:
-- human_ref : human curve dataframe column
-- alphas : CHO curve dataframe column with specific $\alpha$
+- h_dataset : CD human curve dataframe
+- a_dataset : CD CHO curve dataframe
+- humans : series of the title names of the observer curves
+- alphas : series of the title names of the different CHO curves with different &alpha;
 #### Example:
 ``` 
 import pandas as pd
 import functions as fun
 df_alpha = pd.read_pickle('pkl\df_alpha.pkl')
-human = 'human curve 1'
-alpha = 'alpha 5'
-corr = fun.correlation(df_alpha[human], df_alpha[alpha])
+human_s = pd.read_pickle('pkl\human_s.pkl')
+alpha_s = pd.read_pickle('pkl/alpha_s.pkl')
+corr = fun.correlation(df_alpha[human_s],df_alpha[alpha_s],hum
 print(corr)
 ```
-It returns a tuple composed by 5 elements that in the order are:  slope, intercept, standard deviation of the estimated slope , R value and p-value: ``(3.0043937385201778, -0.13975918910170412, 0.3777618585769664, 0.9488726859055828, 9.463131351514869e-05)``
+It returns a 3-D matrix (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, standard deviation of the estimated slope , R value and p-value. The following 2-D matrix represents the result comung from the correlation with only one human, imagine others as the total number of human observers. 
+
+.|0|1|2|3|4
+---|---|---|---|---|---
+0|5.64028|4.73565|3.00439|1.53995|2.00519
+1|-0.14047|-0.145714|-0.139759|-0.0988707|-0.211536
+2|0.954797|0.963753|0.948873|0.750919|0.790655
+3|6.18552e-05|2.88116e-05|9.46313e-05|0.0197061|0.0111864
+4|0.663704|0.495498|0.377762|0.51188|0.586888
