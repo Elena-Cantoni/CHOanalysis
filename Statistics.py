@@ -1,4 +1,3 @@
-import functions
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
@@ -7,6 +6,7 @@ import sys
 path_interaction = os.path.dirname(os.path.abspath(__file__))
 if path_interaction not in sys.path:
     sys.path.append(path_interaction)
+import functions
 
 # depickling and .npy loading
 df_sum_w_dist = pd.read_pickle(path_interaction + '/pkl/df_sum_w_dist.pkl')
@@ -24,19 +24,20 @@ loc = str(txt).find('cd')
 
 """ Correlation parameters of each CHO curve wrt reference observer curve """
 
-m_correlation = np.ndarray(
-    (((len(files['alpha']) - int(num_alpha))), 5, int(num_alpha)))
-#alpha_s = np.ndarray((Contrast_detail.num_alpha,),object)
-hum = -1
-for human in np.array(files['alpha'][int(num_alpha):]):
-    hum += 1
-    for a in range(0, int(num_alpha)):
-        alpha = files['alpha'][a]
-        col_alpha = df_alpha[alpha]
-        print(col_alpha)
-        #alpha_s[a] = alpha
-        corr = functions.correlation(df_alpha[human], col_alpha)
-        m_correlation[hum, :, a] = corr
+# m_correlation = np.ndarray(
+#     (((len(files['alpha']) - int(num_alpha))), 5, int(num_alpha)))
+# #alpha_s = np.ndarray((Contrast_detail.num_alpha,),object)
+# hum = -1
+# for human in np.array(files['alpha'][int(num_alpha):]):
+#     hum += 1
+#     for a in range(int(num_alpha)):
+#         alpha = files['alpha'][a]
+#         col_alpha = df_alpha[alpha]
+#         #print(col_alpha)
+#         #alpha_s[a] = alpha
+#         corr = functions.correlation(df_alpha[human], col_alpha)
+#         m_correlation[hum, :, a] = corr
+m_correlation = functions.correlation(df_alpha[human_s], df_alpha[alpha_s], human_s,alpha_s)
 
 # not used, but useful in case the correlation's linearity is studied for each human curve exploiting the 'fit_correlation' function
 """ Minimization distance parameters identification (slope, intercept and standard deviation of linear fit) related to observer curves """
@@ -57,7 +58,7 @@ hum_linpar = np.ndarray((3, len(human_s)))
 df_hum_linpar = pd.DataFrame(hum_linpar, columns=human_s, index=[
                              'slope', 'intercept', 'std'])
 h = -1
-for z in range(0, len(files['alpha'])-int(num_alpha)):
+for z in range(len(files['alpha'])-int(num_alpha)):
     h += 1
     slope = m_correlation[h][0][min_index_curve[z]]
     intercept = m_correlation[h][1][min_index_curve[z]]
@@ -72,12 +73,12 @@ for z in range(0, len(files['alpha'])-int(num_alpha)):
 # matrix filled with mean and std of the same contrasted point seen by different observers
 points_mean_std = np.ndarray((len(df_alpha['diam']), 2))
 
-for points in range(0, len(df_alpha['diam'])):
+for points in range(len(df_alpha['diam'])):
     mean = np.mean(df_alpha.iloc[points][int(num_alpha)+1:])
     points_mean_std[points, 0] = mean
     h = 0
     m_diff = np.ndarray((len(df_alpha['diam']), len(human_s)))
-    for hum in range(0, len(human_s)):
+    for hum in range(len(human_s)):
         # print(mean)
         h += 1
         diff_square = (df_alpha.iloc[points][int(num_alpha)+h]-mean)**2
@@ -86,6 +87,7 @@ for points in range(0, len(df_alpha['diam'])):
     std_mean = std/np.sqrt(len(human_s)-1)
     points_mean_std[points, 1] = std
 
+df_points_mean_std = pd.DataFrame(points_mean_std,columns =['mean','std'])
 
 """ CHO curve which minimizes the mean observer curve """
 
@@ -94,7 +96,7 @@ n_col = -1
 for col in np.array(files['alpha'][:int(num_alpha)]):
     n_col += 1
     #print('numero colonna ',n_col,' ',col)
-    for row in range(0, len(df_alpha)):
+    for row in range(len(df_alpha)):
         #print('numero riga ',row)
         dist = functions.differences(
             df_alpha[col][row], points_mean_std[row, 0])
@@ -102,33 +104,36 @@ for col in np.array(files['alpha'][:int(num_alpha)]):
 
 points_sum_dist = np.ndarray((int(num_alpha), 1))
 df_points_sum_dist = pd.DataFrame(points_sum_dist)
-for col in range(0, int(num_alpha)):
+for col in range(int(num_alpha)):
     #print('col ',col)
     s = functions.weighted_sum(0.2, points_diff[col])
     points_sum_dist[col, 0] = s
 
 points_curvemin = functions.minimum(df_alpha, df_points_sum_dist, range(
     0, 1), alpha_s)  # files['alpha'][num_alpha:], files['alpha'])
-series_points_curvemin = pd.Series(points_curvemin[:, 0])
+df_points_curvemin = pd.DataFrame(points_curvemin[:, 0],columns =['a'])
+#series_points_curvemin = pd.Series(points_curvemin[:, 0],name = 'a')
 
 """ Correlation parameters estimated from the averaged human curve and the related minimizing CHO curve   """
 hum_points_corr = functions.correlation(
-    points_mean_std[:, 0], series_points_curvemin)
+    df_points_mean_std, df_points_curvemin,pd.Series(df_points_mean_std.columns[0]),pd.Series(df_points_curvemin.columns[0]))
+df_hum_points_corr = pd.DataFrame(hum_points_corr[0,:,:],index=['slope', 'intercept','r value', 'p value', 'std'])#, columns = ['parameters'],index=['slope', 'intercept','r value', 'p value', 'std'])
 
 
 """ Plotting the linearity between CHO minimum visible contrast points and human minimum visible contrast points, the error bar of each measure and the uncertainty of the fit are shown. """
 
 plt.figure(figsize=(10, 8))
-plt.plot(series_points_curvemin,
-         hum_points_corr[0] * points_curvemin+hum_points_corr[1], c='k', lw=5, label='linear fit')
+plt.plot(df_points_curvemin,
+         df_hum_points_corr[0]['slope'] * points_curvemin+df_hum_points_corr[0]['intercept'], c='k', lw=5, label='linear fit')
 
-plt.fill_between(series_points_curvemin, ((hum_points_corr[0]+hum_points_corr[2])*series_points_curvemin+hum_points_corr[1]),
-                 ((hum_points_corr[0]-hum_points_corr[2])*series_points_curvemin+hum_points_corr[1]), color='darkgrey', alpha=0.2, label='uncertainty region')
+plt.fill_between(df_points_curvemin['a'], ((df_hum_points_corr[0]['slope']+df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'],
+                 ((df_hum_points_corr[0]['slope']-df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'], color='darkgrey', alpha=0.2, label='uncertainty region')
 
-plt.errorbar(series_points_curvemin,
-             points_mean_std[:, 0], points_mean_std[:, 1], fmt='.', color='gray', elinewidth=3, capsize=5)
-plt.plot(series_points_curvemin,
-         points_mean_std[:, 0], '.', color='k', mew=4, markersize=12, label='averaged points')
+plt.errorbar(df_points_curvemin['a'],
+             df_points_mean_std['mean'], df_points_mean_std['std'], fmt='.', color='gray', elinewidth=3, capsize=5)
+
+plt.plot(df_points_curvemin['a'],
+         df_points_mean_std['mean'], '.', color='k', mew=4, markersize=12, label='averaged points')
 # lin_col = ['red','blue','green','yellow','pink']
 # h = -1
 # for curve in np.array(files['alpha'][num_alpha:]):
@@ -152,12 +157,10 @@ for c_d_h in path_s[(int(num_alpha)+1):]:
             marker='o', linestyle='-', linewidth=3, alpha=0.6)
 ax.plot(df_alpha['diam'], points_mean_std[:, 0], c='black', marker='o',
         linestyle='-', markersize=10, linewidth=4, label='averaged CD observer curve')
-ax.plot(df_alpha['diam'], series_points_curvemin, '--o',
+ax.plot(df_alpha['diam'], df_points_curvemin, '--o',
         c='firebrick', linewidth=2, label='CHO curve')
 ax.errorbar(df_alpha['diam'], points_mean_std[:, 0], points_mean_std[:,
             1], fmt='.', ecolor='gray', elinewidth=3, capsize=5)
-# ax.set_xlim(0.6,4.1)
-# ax.set_ylim(0,0.175)
 ax.set_title('Averaged CD curve ' + str(txt)[loc:][:-4], fontsize=15)
 ax.legend(fontsize=15)
 plt.show()
