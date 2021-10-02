@@ -52,6 +52,7 @@ def test_minimum():
     h = list(df.columns.values)
     h_hum = pd.Series(df_dist.columns)
     h_a = pd.Series(h[len(h_hum):])
+    
     assert len(fun.minimum(df,df_dist,h_hum,h_a)) == 10  
     assert len(h_hum) == fun.minimum(df,df_dist,h_hum,h_a).shape[1]
     
@@ -71,17 +72,21 @@ def test_correlation():
     """
     TEST
     ----------
-    - If it returns the correct number of parameters
-    - If it returns a tuple
+    - If it returns a matrix with 5 rows
+    - If it returns the correct matrix dimension
 
     """
-    row = 8
-    hum_arr = np.random.random_sample(row)
-    series_hum = pd.Series(hum_arr)
-    a_arr = np.random.random_sample(row)
-    series_a = pd.Series(a_arr)
-    corr = fun.correlation(series_hum,series_a)
-    assert len(corr) == 5 
-    assert isinstance(corr, tuple) == True
+    m_hum = np.random.rand(9,2)
+    hum_df = pd.DataFrame(m_hum, columns = ['h1', 'h2'])
+    hum_series = pd.Series(hum_df.columns)
+    m_alpha = np.random.rand(9,5)
+    alpha_df = pd.DataFrame(m_alpha, columns = ['a1', 'a2','a3','a4','a5'])
+    alpha_series = pd.Series(alpha_df.columns)
+    corr = fun.correlation(hum_df, alpha_df, hum_series, alpha_series)
+    
+    assert corr.shape[1] == 5
+    assert (hum_df.shape[1],5,alpha_df.shape[1]) == corr.shape 
+    
+
     
 

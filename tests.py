@@ -68,23 +68,24 @@ def test_minimum(df,df_dist):
 # Statistics.py testing
 
 st_rand_hum = np.random.randint(1,10)
+st_rand_alpha = np.random.randint(1,10)
 st_rand_contr = np.random.randint(9,12)
 st_alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-@given(df =data_frames(columns=[column(st_alphabet[n], dtype=float, elements=st.floats(0, 1).filter(lambda x: x > 0),unique =True) for n in range(st_rand_hum)], index=range_indexes(st_rand_contr,st_rand_contr)),
-        alpha_col = series(dtype=float,elements=st.floats(0, 1).filter(lambda x: x > 0),unique =True,index=range_indexes(st_rand_contr,st_rand_contr)))   
-def test_correlation(df,alpha_col):
+@given(df_h = data_frames(columns=[column(st_alphabet[n], dtype=float, elements=st.floats(0, 1).filter(lambda x: x > 0),unique =True) for n in range(st_rand_hum)], index=range_indexes(st_rand_contr,st_rand_contr)),
+       df_a = data_frames(columns=[column(st_alphabet[n], dtype=float, elements=st.floats(0, 1).filter(lambda x: x > 0),unique =True) for n in range(st_rand_alpha)], index=range_indexes(st_rand_contr,st_rand_contr)))
+def test_correlation(df_h,df_a):
     """
     TEST
     ----------
-    - If it returns the correct number of parameters
-    - If it returns a tuple
+    - If it returns the correct matrix dimension
+    - If it returns a np.ndarray
 
     """
-    for i in df.head(0):
-        corr = fun.correlation(df[i],alpha_col)
-        assert len(corr) == 5 
-        assert isinstance(corr, tuple) == True
-
+    series_h = pd.Series(df_h.columns)
+    series_a = pd.Series(df_a.columns)
+    corr = fun.correlation(df_h,df_a,series_h,series_a)
+    assert corr.shape == (len(series_h),5, len(series_a))
+    assert isinstance(corr, np.ndarray) == True
 
 
 
