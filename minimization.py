@@ -1,11 +1,12 @@
-import functions
 import os
 import sys
 import numpy as np
 import pandas as pd
+# the following path indicate the directory where the files' interaction happens
 path_interaction = os.path.dirname(os.path.abspath(__file__))
 if path_interaction not in sys.path:
     sys.path.append(path_interaction)
+import functions
 
 # depickling and .npy loading
 files = pd.read_pickle(path_interaction + '/pkl/files.pkl')
@@ -30,7 +31,7 @@ for humans in np.array(files['alpha'][int(num_alpha):]):
     for col in np.array(files['alpha'][:int(num_alpha)]):
         n_col += 1
         #print('numero colonna ',n_col,' ',col)
-        for row in range(0, len(df_alpha)):
+        for row in range(len(df_alpha)):
             #print('numero riga ',row)
             dist = functions.differences(
                 df_alpha[col][row], df_alpha[humans][row])
@@ -43,8 +44,8 @@ sum_w_dist = np.ndarray((num_alpha, (len(files['alpha'])-num_alpha)))
 df_sum_w_dist = pd.DataFrame(
     sum_w_dist, columns=files['alpha'][int(num_alpha):])
 # weighted sum loop
-for hum in range(0, (len(files['alpha'])-num_alpha)):
-    for col in range(0, num_alpha):
+for hum in range((len(files['alpha'])-num_alpha)):
+    for col in range(num_alpha):
         s = functions.weighted_sum(0.2, m_distances[hum][col])
         sum_w_dist[col][hum] = s
 
