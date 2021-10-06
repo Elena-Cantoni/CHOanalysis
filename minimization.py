@@ -46,7 +46,7 @@ df_sum_w_dist = pd.DataFrame(
 # weighted sum loop
 for hum in range((len(files['alpha'])-num_alpha)):
     for col in range(num_alpha):
-        s = functions.weighted_sum(0.2, m_distances[hum][col])
+        s = functions.weighted_sum(0, m_distances[hum][col])
         sum_w_dist[col][hum] = s
 
 

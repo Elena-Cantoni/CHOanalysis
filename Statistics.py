@@ -24,19 +24,6 @@ loc = str(txt).find('cd')
 
 """ Correlation parameters of each CHO curve wrt reference observer curve """
 
-# m_correlation = np.ndarray(
-#     (((len(files['alpha']) - int(num_alpha))), 5, int(num_alpha)))
-# #alpha_s = np.ndarray((Contrast_detail.num_alpha,),object)
-# hum = -1
-# for human in np.array(files['alpha'][int(num_alpha):]):
-#     hum += 1
-#     for a in range(int(num_alpha)):
-#         alpha = files['alpha'][a]
-#         col_alpha = df_alpha[alpha]
-#         #print(col_alpha)
-#         #alpha_s[a] = alpha
-#         corr = functions.correlation(df_alpha[human], col_alpha)
-#         m_correlation[hum, :, a] = corr
 m_correlation = functions.correlation(df_alpha[human_s], df_alpha[alpha_s], human_s,alpha_s)
 
 # not used, but useful in case the correlation's linearity is studied for each human curve exploiting the 'fit_correlation' function
@@ -124,10 +111,12 @@ df_hum_points_corr = pd.DataFrame(hum_points_corr[0,:,:],index=['slope', 'interc
 
 plt.figure(figsize=(10, 8))
 plt.plot(df_points_curvemin,
-         df_hum_points_corr[0]['slope'] * points_curvemin+df_hum_points_corr[0]['intercept'], c='k', lw=5, label='linear fit')
+         df_hum_points_corr[0]['slope'] * df_points_curvemin+df_hum_points_corr[0]['intercept'], c='k', lw=5, label='linear fit')
 
-plt.fill_between(df_points_curvemin['a'], ((df_hum_points_corr[0]['slope']+df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'],
-                 ((df_hum_points_corr[0]['slope']-df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'], color='darkgrey', alpha=0.2, label='uncertainty region')
+plt.fill_between(df_points_curvemin['a'], 
+                 ((df_hum_points_corr[0]['slope']+df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'],
+                 ((df_hum_points_corr[0]['slope']-df_hum_points_corr[0]['std'])*df_points_curvemin+df_hum_points_corr[0]['intercept'])['a'], 
+                 color='darkgrey', alpha=0.2, label='uncertainty region')
 
 plt.errorbar(df_points_curvemin['a'],
              df_points_mean_std['mean'], df_points_mean_std['std'], fmt='.', color='gray', elinewidth=3, capsize=5)
