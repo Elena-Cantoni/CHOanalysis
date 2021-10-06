@@ -1,8 +1,9 @@
 
 # functions.py
 
-functions.py is a module where funtions used in **Contrast_detail.py**, **minimization.py** and **Statistics.py** are collected.
+functions.py is a module where funtions used in **minimization.py** and **Statistics.py** are collected.
 Following the usage's order, a more datailed description about their functionality is given.
+The reported results depend on the used dataset.
 
 ## `differences(cho_point, hum_point)`
 The function is seen, firstly, in *minimization.py* then in *Statistics.py*. It calculates the absolute difference between the contrast values estimated by the CHO model and the human observer for the same diameters. 
@@ -53,7 +54,7 @@ import functions as fun
 df_alpha = pd.read_pickle('pkl\df_alpha.pkl')
 df_sum_w_dist = pd.read_pickle('pkl\df_sum_w_dist.pkl')  
 human_s = pd.read_pickle('pkl\human_s.pkl')
-alpha_s = pd.read_pickle('pkl\alpha_s.pkl')
+alpha_s = pd.read_pickle('pkl/alpha_s.pkl')
 min_curves = fun.minimum(df_alpha, df_sum_w_dist, human_s, alpha_s)
 print(min_curves)
 ```
@@ -85,7 +86,7 @@ import functions as fun
 df_alpha = pd.read_pickle('pkl\df_alpha.pkl')
 human_s = pd.read_pickle('pkl\human_s.pkl')
 alpha_s = pd.read_pickle('pkl/alpha_s.pkl')
-corr = fun.correlation(df_alpha[human_s],df_alpha[alpha_s],hum
+corr = fun.correlation(df_alpha[human_s],df_alpha[alpha_s],human_s,alpha_s)
 print(corr)
 ```
 It returns a 3-D matrix (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, standard deviation of the estimated slope , R value and p-value. The following 2-D matrix represents the result comung from the correlation with only one human, imagine others as the total number of human observers. 
