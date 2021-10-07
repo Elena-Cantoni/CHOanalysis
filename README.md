@@ -41,10 +41,11 @@ In order to use this code to create Contrast-detail curves and to make an analys
 		> - **'basic_tests.py'** which includes every function test with prectical examples and values.
 		>
 		> -  **'tests.py'** that tests all the function using strategies defined in hypothesis library.
+		>
 		>The pytest framework is needed to run the codes, if it is not yet installed, run ``pip install -U pytest`` from the terminal.
 	 - Folders: 
 		>- **'data'** is filled with .txt files where you can find the path of each .csv file inside the csv folders included in 'data'. Csv files need two columns; it is necessary that the first one is named *'Nominal Diameter (mm)'* and at least 9 rows and at most 12. Txt files must be organized as follow:
-			>		
+					
 			```
 			alpha = path
 			alpha (...) = "~/csvFolder/csvFilealpha"
@@ -55,11 +56,11 @@ In order to use this code to create Contrast-detail curves and to make an analys
 		>- **'pkl'** contains .pkl and .npy files saved during the code execution.
 		
  3. Execute the three scripts in the follower order  on your terminal: 
-	 >i.  Contrast_detail.py
-	 >ii. minimization.py
+	 >i.  Contrast_detail.py 
+	 >ii. minimization.py 
 	 >iii. Statistics.py 
 	 
-	 Running Contrast_detail.py, two dialog windows are opened. The first one requires the selection of the local directory where finding data (.txt, .csv). An example is given choosing 'data' folder in CHOanalysis directory. The second dialog window wants  the .txt file chosen as input for the code. From the given dataset choose .txt file in 'data folder. Then, before continuing, press the "continue" button in the tk dialogue box.
+	 Running Contrast_detail.py, two dialog windows are opened. The first one requires the selection of the local directory where finding data (.txt, .csv). An example is given choosing 'data' folder in CHOanalysis directory. The second dialog window wants  the .txt file chosen as input for the code. From the given dataset, choose .txt file in 'data folder. Then, before continuing, press the "click me to continue" button in the tk dialogue box.
 	 
 4. Enjoy the results and how the project works.
 
