@@ -32,7 +32,7 @@ def test_weighted_sum():
     """
     dist = np.array(np.random.random_sample((np.random.randint(9,12),)))
     assert isinstance(fun.weighted_sum(0.1,dist), float) == True
-    assert fun.weighted_sum(0.3,dist) >= 0
+    assert fun.weighted_sum(0.3,dist) > 0
     assert fun.weighted_sum(0.3,dist) != 0
     assert 8 < len(dist) < 13 
 

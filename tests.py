@@ -27,7 +27,7 @@ def test_differences(x0, x1):
     assert diff >= 0
 
 
-@given(w = st.floats(0,1, exclude_min=True),
+@given(w = st.floats(0,1, exclude_max=True),
        dist=arrays(float,st.integers(min_value=9,max_value=12),elements=st.floats(0, 1)))
 def test_weighted_sum(w,dist):
     """
@@ -35,13 +35,13 @@ def test_weighted_sum(w,dist):
     ----------
     - If it returns a float value
     - If it returns a positive value or equal to zero 
-    - If it returns a weighted factor different from zero
+    - If it returns a weighted factor different from one
 
     """
     w_sum = fun.weighted_sum(w,dist)
     assert isinstance(w_sum, float) == True
     assert w_sum >= 0
-    assert w!=0
+    assert w!=1
 
 
 rand_hum = np.random.randint(1,10)
