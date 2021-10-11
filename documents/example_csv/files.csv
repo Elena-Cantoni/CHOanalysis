@@ -1,0 +1,9 @@
+alpha,path
+alpha 1.5,./data/CORO_LAAG_0004/CHO_CORO_LAAG_0004_1e5a.csv
+alpha 2.5,./data/CORO_LAAG_0004/CHO_CORO_LAAG_0004_2e5a.csv
+alpha 5,./data/CORO_LAAG_0004/CHO_CORO_LAAG_0004_5a.csv
+alpha 10,./data/CORO_LAAG_0004/CHO_CORO_LAAG_0004_10a.csv
+alpha 15,./data/CORO_LAAG_0004/CHO_CORO_LAAG_0004_15a.csv
+human curve 1,./data/CORO_LAAG_0004/Hum_CORO_LAAG_0004_CD_Elena.csv
+human curve 2,./data/CORO_LAAG_0004/Hum_CORO_LAAG_0004_CD_Marco03092021.csv
+human curve 3,./data/CORO_LAAG_0004/Hum_CORO_LAAG_0004_CD_Valeria.csv
