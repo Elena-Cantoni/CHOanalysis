@@ -18,7 +18,7 @@ import Contrast_detail
 import Statistics
 txt = '.\data\cd_CORO_LAAG_0004.txt'
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
-df_alpha = pd.read_csv('./pkl/df_alpha.csv')
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 meanstd,df_meanstd = Statistics.meanstd_curve(df_alpha,5,human_s) 
 print(meanstd,'\n',df_meanstd)
 ```
@@ -53,7 +53,7 @@ import Contrast_detail
 import Statistics
 txt = '.\data\cd_CORO_LAAG_0004.txt'
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
-df_alpha = pd.read_csv('./pkl/df_alpha.csv')
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 meanstd,df_meanstd = Statistics.meanstd_curve(df_alpha,5,human_s)
 df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(df_alpha,meanstd,files,5,alpha_s)
 print(df_points_curvemin,'\n', df_table_points_curvemin )
@@ -69,7 +69,7 @@ A  ``linregress`` function is used.
 - a_dataset : CD CHO curve dataframe
 - humans : series of the title names of the observer curves
 - alphas : series of the title names of the different CHO curves with different &alpha;
-- 
+
 #### Example:
 ``` 
 import pandas as pd
@@ -78,7 +78,7 @@ import Contrast_detail
 import Statistics
 txt = '.\data\cd_CORO_LAAG_0004.txt'
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
-df_alpha = pd.read_csv('./pkl/df_alpha.csv')
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 df_corr = Statistics.correlation(df_alpha[human_s],df_alpha[alpha_s],human_s, alpha_s)
 print(df_corr)
 ```

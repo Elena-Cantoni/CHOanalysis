@@ -1,5 +1,4 @@
 # minimization 
-
 **minimization.py** is a functions module where the data collected in contrast-detail dataset ( obtained from the module *Contrast_detail.py*) are subjected to a series of operations which calculate distances between CHO curve points and human observer curve points with the aim to find, after a weighted sum of that distances,  the CHO curve that minimizes the human curves in question.
 Following the usage's order, a more datailed description about the used functions is given.  
   
@@ -17,14 +16,14 @@ The function calculates the absolute difference between the contrast values esti
 import pandas as pd
 import numpy as np
 import minimization
-df_alpha = pd.read_csv('./pkl/df_alpha.csv')
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 diff = minimization.differences(df_alpha['alpha 5'][0],df_alpha['human curve 1'][0])
 print(diff)
 ```
-It returns a float value: ```0.0310362886005352
+It returns a float value: ```0.0310362886005352```
 
 ## `tot_distances(m_dist, txt_files, n_alpha, df_cd):`
-It is typically used inside a loop which moves between all the contrasts defined for each model with different $\alpha$ and for each experimental observer.
+It estimates matrix filled with distances between CHO and human points referred to the same diameter. The loops used inside the function move between all the contrasts defined for each model with different $\alpha$ and for each experimental observer.
 
 #### Parameters:
 - m_dist : empty matrix to be filled
@@ -37,8 +36,8 @@ It is typically used inside a loop which moves between all the contrasts defined
 import numpy as np
 import pandas as pd
 import minimization
-df_alpha = pd.read_csv('./pkl/df_alpha.csv')
-files = pd.read_csv('./pkl/files.csv')
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
+files = pd.read_csv('./documents/example_csv/files.csv')
 m_distances = np.ndarray((((len(files['alpha'])-5)), 5, len(df_alpha)))
 m_dist = minimization.tot_distances(m_distances,files,5,df_alpha)
 print(m_dist)
@@ -64,8 +63,8 @@ According to the number of achieved  diameters, the three outermosts are charact
 import numpy as np 
 import pandas as pd 
 import minimization 
-df_alpha = pd.read_csv('./pkl/df_alpha.csv') 
-files = pd.read_csv('./pkl/files.csv') 
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv') 
+files = pd.read_csv('./documents/example_csv/files.csv') 
 m_distances = np.ndarray((((len(files['alpha'])-5)), 5, len(df_alpha)))
 m_dist = minimization.tot_distances(m_distances,files,5,df_alpha)
 m_distance_row = m_dist[0][0]
@@ -90,8 +89,8 @@ An overall estimation is led with this function. A weighted sum of distances for
 import numpy as np 
 import pandas as pd 
 import minimization 
-df_alpha = pd.read_csv('./pkl/df_alpha.csv') 
-files = pd.read_csv('./pkl/files.csv') 
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv') 
+files = pd.read_csv('./documents/example_csv/files.csv') 
 m_distances = np.ndarray((((len(files['alpha'])-5)), 5, len(df_alpha)))
 m_dist = minimization.tot_distances(m_distances,files,5,df_alpha)
 m_w_sum = np.ndarray((5,(len(files['alpha'])-5)))
@@ -124,12 +123,13 @@ import Contrast_detail
 import minimization
 txt = '.\data\cd_CORO_LAAG_0004.txt'
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
-df_alpha = pd.read_csv('./pkl/df_alpha.csv') 
-df_sum_w_dist = pd.read_csv('./pkl/df_sum_w_dist.csv') 
+df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv') 
+df_sum_w_dist = pd.read_csv('./documents/example_csv/df_sum_w_dist.csv') 
 df_curvemin, df_table_curvemin = minimization.minimum(df_alpha, df_sum_w_dist, human_s, alpha_s)
 print(df_curvemin,'\n', df_table_curvemin)
 ```
-The execution returns a two dataframes.
+The execution returns two dataframes.
+
 - The first one is organized in n° humans columns, each column represents the minimum CHO curve associated to that human observer. 
 
 0|1|2
@@ -143,6 +143,7 @@ The execution returns a two dataframes.
 6|0.075927|0.055790|0.075927
 7|0.123040|0.083790|0.123040
 8|0.181184|0.114775|0.181184
+
 - The second one contains the minimum distances curves and the referred weighted distances.
 
 alpha|min alpha curve|distance
