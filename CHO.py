@@ -7,11 +7,11 @@ import Contrast_detail
 import minimization
 import Statistics
 
+
 txt = Path(sys.argv[1])
 
 # External data and name organization
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
-
 
 # Contrast-detail dataframe creation
 len_df = len(pd.read_csv(files['path'][0]))
@@ -26,8 +26,9 @@ m_distances = minimization.tot_distances(
 
 # Weighted sums dataframe
 sum_w_dist = np.ndarray((num_alpha, (len(files['alpha'])-num_alpha)))
+w = 0.1
 df_sum_w_dist = minimization.tot_weighted_sum(
-    sum_w_dist, m_distances, files, num_alpha)
+    sum_w_dist, m_distances, files, num_alpha, w)
 
 # Definition of minimum alpha needed to have a CHO curve most similar to human curve for each observer
 df_protocol_curvemin, df_table_curvemin = minimization.minimum(
@@ -78,20 +79,20 @@ the error bar of each measure and the uncertainty of the fit are shown. """
 
 plt.figure(figsize=(10, 8))
 plt.plot(df_points_curvemin[0],
-         df_hum_points_corr[0]['slope'] * df_points_curvemin[0]+df_hum_points_corr[0]['intercept'], c='k', lw=5, label='linear fit')
+          df_hum_points_corr[0]['slope'] * df_points_curvemin[0]+df_hum_points_corr[0]['intercept'], c='k', lw=5, label='linear fit')
 
 plt.fill_between(df_points_curvemin[0],
-                 ((df_hum_points_corr[0]['slope']+df_hum_points_corr[0]['std'])
+                  ((df_hum_points_corr[0]['slope']+df_hum_points_corr[0]['std'])
                   * df_points_curvemin+df_hum_points_corr[0]['intercept'])[0],
-                 ((df_hum_points_corr[0]['slope']-df_hum_points_corr[0]['std'])
+                  ((df_hum_points_corr[0]['slope']-df_hum_points_corr[0]['std'])
                   * df_points_curvemin+df_hum_points_corr[0]['intercept'])[0],
-                 color='darkgrey', alpha=0.2, label='uncertainty region')
+                  color='darkgrey', alpha=0.2, label='uncertainty region')
 
 plt.errorbar(df_points_curvemin[0],
-             df_points_mean_std['mean'], df_points_mean_std['std'], fmt='.', color='gray', elinewidth=3, capsize=5)
+              df_points_mean_std['mean'], df_points_mean_std['std'], fmt='.', color='gray', elinewidth=3, capsize=5)
 
 plt.plot(df_points_curvemin[0],
-         df_points_mean_std['mean'], '.', color='k', mew=4, markersize=12, label='averaged points')
+          df_points_mean_std['mean'], '.', color='k', mew=4, markersize=12, label='averaged points')
 # lin_col = ['red','blue','green','yellow','pink']
 # h = -1
 # for curve in np.array(files['alpha'][num_alpha:]):
