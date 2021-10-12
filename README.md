@@ -35,12 +35,12 @@ In order to use this code to create Contrast-detail curves and to make an analys
  2. When installed, understand the directory organization:
  
 	 - Main script codes: [**CHO.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/CHO.py)
-	 - 
 	 - Functions code: [**Contrast_detail.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Contrast_detail.py), [**minimization.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/minimization.py), [**Statistics.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Statistics.py).
 	 - Folders: 
 		- [**data**](https://github.com/Elena-Cantoni/CHOanalysis/tree/main/data) is filled with .txt files where you can find the path of each .csv file inside the csv folders included in 'data'. 
 		
 			*How the files have to be written:*
+
 			***Csv files*** need two columns; it is necessary that the first one is named *'Nominal Diameter (mm)'* and has at least 9 rows and at most 12. 
 			***Txt files*** must be organized as follow:
 			```
