@@ -14,7 +14,7 @@ def strings(path_txt):
     -------
     files : txt dataframe
     num_alpha : int value representing the number of rows where the word 'alpha' appears
-    path_s :  titles series in dataframe
+    path_s :  titles list in dataframe
     alpha_s : alpha names series in dataframe
     human_s : human names series in dataframe
 
@@ -49,11 +49,11 @@ def cd_dataframe(m_contr, txt_files, names_string):
     ----------
     m_contr : empty matrix to be filled
     txt_files : txt dataframe
-    names_string : titles series in dataframe
+    names_string : titles list in dataframe
 
     Returns
     -------
-    cd_df : contrast-detil curve dataframe
+    cd_df : contrast-detail curve dataframe
 
     """
     a_df = pd.read_csv(txt_files['path'][0])

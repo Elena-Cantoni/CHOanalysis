@@ -34,7 +34,7 @@ def tot_distances(m_dist, txt_files, n_alpha, df_cd):
 
     Returns
     -------
-    m_dist : distances 3D-matrix (diameters,alpha curves,humans)
+    m_dist : distances 3D-matrix (humans,alpha curves,diameters)
 
     """
     n_hum = -1
@@ -96,7 +96,7 @@ def weighted_sum(weight, dist):  # weight
     return d_tot
 
 
-def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha):
+def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha, w):
     """
     Estimates weighted sum of the distances for each curve and fills a dataframe
 
@@ -106,6 +106,7 @@ def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha):
     m_dist : distances 3D-matrix
     txt_files : txt dataframe
     n_alpha : int value representing the number of rows where the word 'alpha' appears
+    w = weighing factor
 
     Returns
     -------
@@ -115,7 +116,7 @@ def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha):
     # weighted sum loop
     for hum in range((len(txt_files['alpha'])-n_alpha)):
         for col in range(n_alpha):
-            s = weighted_sum(0, m_dist[hum][col])
+            s = weighted_sum(w, m_dist[hum][col])
             m_sum_w_dist[col][hum] = s
     df_sum_w_dist = pd.DataFrame(
         m_sum_w_dist, columns=txt_files['alpha'][int(n_alpha):])
