@@ -1,6 +1,6 @@
 
 # Contrast_detail
-**Contrast_detail.py** is a function module concerning the selection of data and creation of contrast-detail curve dataset.
+**Contrast_detail.py** is a function module concerning the selection of data and creation of contrast-detail curves dataset.
 Following the usage's order, a more datailed description about the used functions is given.
 
 ## `strings(path_txt)`
@@ -38,7 +38,7 @@ It returns:
  'human curve 1' 'human curve 2' 'human curve 3']`
 - alpha_s : alpha  names series in dataframe
 `('alpha 1.5' 'alpha 2.5' 'alpha 5' 'alpha 10' 'alpha 15')`,
-- human_s : human names seres in dataframe
+- human_s : human names series in dataframe
 `('human curve 1' 'human curve 2' 'human curve 3')`
 
 ## `cd_dataframe(m_contr, txt_files, names_string)`

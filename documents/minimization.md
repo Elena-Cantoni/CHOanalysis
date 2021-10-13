@@ -1,5 +1,5 @@
 # minimization 
-**minimization.py** is a functions module where the data collected in contrast-detail dataset ( obtained from the module *Contrast_detail.py*) are subjected to a series of operations which calculate distances between CHO curve points and human observer curve points with the aim to find, after a weighted sum of that distances,  the CHO curve that minimizes the human curves in question.
+**minimization.py** is a functions module where the data collected in contrast-detail dataset ( obtained from the module *Contrast_detail.py*) are subjected to a series of operations which calculate distances between CHO curve points and human observer curve points with the aim to find, after a weighted sum of those distances,  the CHO curve that minimizes the human curves in consideration.
 Following the usage's order, a more datailed description about the used functions is given.  
   
 

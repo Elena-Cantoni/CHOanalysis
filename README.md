@@ -9,9 +9,9 @@
 In this repository a project concerning a Channelized Hotelling Observer model is led.
 
 Starting from a series of .csv documents obtained by a Matlab master code, an accurate analysis is done.
-The collected data running the master code give information about the minimum contrast at which a certain diamenter of disks, on a selected phantom, can be seen. The dataset is given for both the human evaluation test and the assessing of the CHO model, changing a noise factor &alpha;.
+The collected data running the master code gives information about the minimum contrast at which a certain diamenter of disks, on a selected phantom, can be seen. The dataset is given for both the human evaluation test and the assessing of the CHO model, changing a noise factor &alpha;.
 
-BY running **CHO.py** module, the whole program is executed automatically and, following the order, a series of functions, categorised according to their task, are used.
+By running **CHO.py** module, the whole program is executed automatically and, following the order, a series of functions, categorized according to their task, are used.
 
 First of all, using the functions in **Contrast_detail.py**, for each distinct protocol, contrast-detail curves are graphed, and a plot with human curves and &alpha;-dependent CHO curves is shown.
 
@@ -34,15 +34,15 @@ In order to use this code to create Contrast-detail curves and to make an analys
 	
  2. When installed, understand the directory organization:
  
-	 - Main script codes: [**CHO.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/CHO.py)
-	 - Functions code: [**Contrast_detail.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Contrast_detail.py), [**minimization.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/minimization.py), [**Statistics.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Statistics.py).
+	 - Main script code: [**CHO.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/CHO.py)
+	 - Functions codes: [**Contrast_detail.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Contrast_detail.py), [**minimization.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/minimization.py), [**Statistics.py**](https://github.com/Elena-Cantoni/CHOanalysis/blob/main/Statistics.py).
 	 - Folders: 
 		- [**data**](https://github.com/Elena-Cantoni/CHOanalysis/tree/main/data) is filled with .txt files where you can find the path of each .csv file inside the csv folders included in 'data'. 
 		
 			*How the files have to be written:*
 
-			***Csv files*** need two columns; it is necessary that the first one is named *'Nominal Diameter (mm)'* and has at least 9 rows and at most 12. 
-			***Txt files*** must be organized as follow:
+			***Csv files*** need two columns; it is necessary that the first one is named *'Nominal Diameter (mm)'* and it needs to have at least 9 rows and at most 12. 
+			***Txt files*** must be organized as follows:
 			```
 			alpha = path
 			alpha (...) = "~/csvFolder/csvFilealpha"

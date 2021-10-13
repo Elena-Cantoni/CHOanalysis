@@ -1,12 +1,12 @@
 # Statistics
-**Statistics.py**is a functions module that performs some mathematical operation that give a more statistical idea about the dataset collected. In particular we will see which steps to calculate the mean human observer curve and the estimation of its minimizing CHO &alpha;-dependent curve. Then, a linearity study is led with the estimation of *p value* and *r value*.
+**Statistics.py** is a functions module that performs some mathematical operations that give a more statistical idea about the dataset collected. In particular we will see which steps are needed to calculate the mean human observer curve and the estimation of its minimizing CHO &alpha;-dependent curve. Then, a linearity study is led with the estimation of *p value* and *r value*.
 Following the usage's order, a more datailed description about the used functions is given.  
 
 ## `meanstd_curve(df_cd, n_alpha, list_humans)`
 The function estimates mean and standard deviation points between different human observations of the same image sample.
 
 #### Parameters:
-- df_cd : contrast-detil curve dataframe
+- df_cd : contrast-detial curve dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
 - list_humans : series of the title names of the observer curves
 
@@ -36,10 +36,10 @@ mean|std
 8|0.442954|0.119914
 
 ## `meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas)`
-The function allows to find which is the CHO &alpha;-dependent curve that minimizes the averaged human observer curve estimated with the previous described *meanstd_curve* function.
+The function allows to find which is the CHO &alpha;-dependent curve that minimizes the averaged human observer curve estimated with the previously described *meanstd_curve* function.
 
 #### Parameters:
-- df_cd : contrast-detil curve dataframe
+- df_cd : contrast-detial curve dataframe
 - p_mean_std : matrix filled with mean and std of the same diameter points seen by different observers
 - txt_files : txt dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
@@ -82,7 +82,7 @@ df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 df_corr = Statistics.correlation(df_alpha[human_s],df_alpha[alpha_s],human_s, alpha_s)
 print(df_corr)
 ```
-It returns a dataframe (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, R value, p-value and  standard deviation of the estimated slope. The following 2-D dataframe represents the result coming from the correlation with only one human, imagine others as the total number of human observers. 
+It returns a 3-D dataframe (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, R value, p-value and  standard deviation of the estimated slope. The following 2-D dataframe represents one slice of the 3-D dataframe corresponding to n° human = 1. 
 
 .|0|1|2|3|4
 ---|---|---|---|---|---
