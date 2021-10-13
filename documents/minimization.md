@@ -23,13 +23,13 @@ print(diff)
 It returns a float value: ```0.0310362886005352```
 
 ## `tot_distances(m_dist, txt_files, n_alpha, df_cd):`
-It estimates matrix filled with distances between CHO and human points referred to the same diameter. The loops used inside the function move between all the contrasts defined for each model with different $\alpha$ and for each experimental observer.
+It estimates matrix filled with distances between CHO and human points referred to the same diameter. The loops used inside the function move between all the contrasts defined for each model with different &alpha; and for each experimental observer.
 
 #### Parameters:
 - m_dist : empty matrix to be filled
 - txt_files : txt dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
-- df_cd : contrast-detil curve dataframe
+- df_cd : contrast-detial curve dataframe
 
 #### Example:
 ```
@@ -52,7 +52,7 @@ It returns a 3D matrix with (x = diameters, y = alphas, z = humans). As shown be
 ```
 
 ## ```weighted_sum(weight,dist)```
-The function performs a weighted sum over all the diameters of interest between all the distances calculated with **differences ** regarding a specific CHO curve and a specific human curve.
+The function performs a weighted sum over all the diameters of interest between all the distances calculated with **differences** regarding a specific CHO curve and a specific human curve.
 According to the number of achieved  diameters, the three outermosts are characterized by a lower weighting factor wrt the values referred to the innermost diameters which are weighted with a factor 1. It is assumed that the maximum number of diameters is 12 and different weighting conditions are imposed because  it can vary between 8 and 12.
 #### Parameters:
 - weight : float weighting value 
@@ -82,7 +82,7 @@ An overall estimation is led with this function. A weighted sum of distances for
    - m_dist : distances 3D-matrix
    - txt_files : txt dataframe
    - n_alpha : int value representing the number of rows where the word 'alpha' appears
-   - w = weighing factor
+   - w : weighting factor
    
 #### Example:
 ``` 
@@ -114,7 +114,7 @@ The function concerns to the capability to estimate which CHO &alpha;-dependent 
 - dist_set : dataframe of weighted distance sums
 - list_humans : series of the title names of the observer curves
 - list_alphas : series of the title names of the different CHO curves with different alpha
-- 
+
 #### Example:
 ``` 
 import pandas as pd
