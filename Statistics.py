@@ -40,7 +40,7 @@ def meanstd_curve(df_cd, n_alpha, list_humans):
     return points_mean_std, df_points_mean_std
 
 
-def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas):
+def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas, w):
     """
     Finds CHO curve which minimizes the mean observer curve
 
@@ -51,6 +51,7 @@ def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas):
     txt_files : txt dataframe
     n_alpha : int value representing the number of rows where the word 'alpha' appears
     list_alphas : alpha names series in dataframe
+    w : weighting factor
 
     Returns
     -------
@@ -74,7 +75,7 @@ def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas):
 
     for col in range(int(n_alpha)):
         #print('col ',col)
-        s = minimization.weighted_sum(0.2, points_diff[col])
+        s = minimization.weighted_sum(w, points_diff[col])
         points_sum_dist[col, 0] = s
 
     df_points_curvemin, df_table_points_curvemin = minimization.minimum(df_cd, df_points_sum_dist, range(

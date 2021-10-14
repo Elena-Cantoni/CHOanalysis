@@ -40,7 +40,7 @@ points_mean_std, df_points_mean_std = Statistics.meanstd_curve(
 
 # mean observer curve minimization
 df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(
-    df_alpha, points_mean_std, files, num_alpha, alpha_s)
+    df_alpha, points_mean_std, files, num_alpha, alpha_s, w)
 
 # Correlation parameters estimated from the averaged human curve
 df_hum_points_corr = Statistics.correlation(

@@ -35,7 +35,7 @@ mean|std
 7|0.310358|0.076950
 8|0.442954|0.119914
 
-## `meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas)`
+## `meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas, w)`
 The function allows to find which is the CHO &alpha;-dependent curve that minimizes the averaged human observer curve estimated with the previously described *meanstd_curve* function.
 
 #### Parameters:
@@ -44,6 +44,7 @@ The function allows to find which is the CHO &alpha;-dependent curve that minimi
 - txt_files : txt dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
 - list_alphas : alpha names series in dataframe
+-w : weighting factor
 
 #### Example:
 ```
@@ -52,10 +53,11 @@ import pandas as pd
 import Contrast_detail
 import Statistics
 txt = '.\data\cd_CORO_LAAG_0004.txt'
+w = 0.1
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
 df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 meanstd,df_meanstd = Statistics.meanstd_curve(df_alpha,5,human_s)
-df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(df_alpha,meanstd,files,5,alpha_s)
+df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(df_alpha,meanstd,files,5,alpha_s,w)
 print(df_points_curvemin,'\n', df_table_points_curvemin )
 ```
 It returns the same results of *minimum* function defined in *minimization.py* with the exception that the only human curve represents the averaged human curve.
