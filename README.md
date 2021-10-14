@@ -52,6 +52,7 @@ In order to use this code to create Contrast-detail curves and to make an analys
 		- [**documents**](https://github.com/Elena-Cantoni/CHOanalysis/tree/main/documents) contains the documentation concerning to function scripts  *'Contrast_detail.py'*, *'minimization.py'* and  *'Statistics.py'*.
 		- [**tests**](https://github.com/Elena-Cantoni/CHOanalysis/tree/main/tests)  includes the testing of functions managed in testing documents such as the respective function scripts. The tests performed exploit practical examples and values.
 The pytest framework is needed to run the codes, if it is not yet installed, run ``pip install -U pytest`` from the terminal.
+To run the tests, write this command from the main project directory: ``pytest .\tests\TestName.py`` 
 	
  3. Execute the **'CHO.py'** script on the terminal with the following command:
  ```python .\CHO.py .\data\NameFile.txt```
