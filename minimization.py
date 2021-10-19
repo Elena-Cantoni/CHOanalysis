@@ -106,7 +106,7 @@ def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha, w):
     m_dist : distances 3D-matrix
     txt_files : txt dataframe
     n_alpha : int value representing the number of rows where the word 'alpha' appears
-    w = weighing factor
+    w : weighting factor
 
     Returns
     -------

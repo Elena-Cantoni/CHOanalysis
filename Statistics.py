@@ -21,18 +21,14 @@ def meanstd_curve(df_cd, n_alpha, list_humans):
 
     """
     points_mean_std = np.ndarray((len(df_cd['diam']), 2))
-
+    if len(list_humans) == 1:
+        dof = 0
+    else: 
+        dof = 1
     for points in range(len(df_cd['diam'])):
         mean = np.mean(df_cd.iloc[points][int(n_alpha)+1:])
         points_mean_std[points, 0] = mean
-        h = 0
-        m_diff = np.ndarray((len(df_cd['diam']), len(list_humans)))
-        for hum in range(len(list_humans)):
-            h += 1
-            diff_square = (df_cd.iloc[points][int(n_alpha)+h]-mean)**2
-            m_diff[points, hum] = diff_square
-        std = np.sqrt(sum(m_diff[points, :])/(len(list_humans)-1))
-        #std_mean = std/np.sqrt(len(human_s)-1)
+        std = np.std(df_cd.iloc[points][int(n_alpha)+1:],ddof = dof)
         points_mean_std[points, 1] = std
 
     df_points_mean_std = pd.DataFrame(points_mean_std, columns=['mean', 'std'])
@@ -71,13 +67,14 @@ def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas, w):
             points_diff[n_col][row] = dist
 
     points_sum_dist = np.ndarray((int(n_alpha), 1))
-    df_points_sum_dist = pd.DataFrame(points_sum_dist)
-
+    
     for col in range(int(n_alpha)):
         #print('col ',col)
         s = minimization.weighted_sum(w, points_diff[col])
         points_sum_dist[col, 0] = s
 
+    df_points_sum_dist = pd.DataFrame(points_sum_dist)
+    
     df_points_curvemin, df_table_points_curvemin = minimization.minimum(df_cd, df_points_sum_dist, range(
         0, 1), list_alphas)
 
@@ -99,11 +96,11 @@ def correlation(h_dataset, a_dataset, humans, alphas):
 
     Returns
     -------
-    df_corr : 3-D dataframe containing correlation parameters (n° humans, n° parameters,°n alphas)
+    df_corr : 3-D matrix containing correlation parameters (n° humans, n° parameters,°n alphas)
 
     """
     corr = np.ndarray(
-        (((len(humans))), 5, len(alphas)))
+        (len(humans), 5, len(alphas)))
     hum = -1
     for h in humans:
         hum += 1
@@ -114,7 +111,5 @@ def correlation(h_dataset, a_dataset, humans, alphas):
                 a_dataset[a], h_dataset[h])
             parameters = (slope, intercept, r_value, p_value, std_err)
             corr[hum, :, al] = parameters
-    df_corr = pd.DataFrame(corr[0, :, :], index=[
-                           'slope', 'intercept', 'r value', 'p value', 'std'])
 
-    return df_corr
+    return corr

@@ -20,21 +20,16 @@ def strings(path_txt):
 
     """
     files = pd.read_csv(path_txt, delimiter="=")
-    path = [files['path']]
-    path = path[0]
-    path_s = [np.append(['diam'], [files['alpha']])]
-    path_s = path_s[0]
+    path = files['path']
+    path_s = np.append(['diam'], [files['alpha']])
 
-    for a in range(len(path_s)-1):
+    for a in range(1,len(path_s)):
         if "alpha" in path_s[a]:
             # ATTENTION! num_alpha defined only if "alpha" is in path_s[a] for some a
-            num_alpha = path_s[a]
             num_alpha = a
 
-    alpha_s = [files['alpha'][:num_alpha]]
-    alpha_s = alpha_s[0]
-    human_s = [files['alpha'][num_alpha:]]
-    human_s = human_s[0]
+    alpha_s = files['alpha'][:num_alpha]
+    human_s = files['alpha'][num_alpha:]
 
     return files, num_alpha, path_s, alpha_s, human_s
 
