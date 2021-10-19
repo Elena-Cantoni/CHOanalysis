@@ -37,16 +37,17 @@ df_protocol_curvemin, df_table_curvemin = minimization.minimum(
 # Mean and std observer's curve dataframe
 points_mean_std, df_points_mean_std = Statistics.meanstd_curve(
     df_alpha, num_alpha, human_s)
-
 # mean observer curve minimization
 df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(
     df_alpha, points_mean_std, files, num_alpha, alpha_s, w)
 
 # Correlation parameters estimated from the averaged human curve
-df_hum_points_corr = Statistics.correlation(
+corr = Statistics.correlation(
     df_points_mean_std, df_points_curvemin, pd.Series(
         df_points_mean_std.columns[0]),
     pd.Series(df_points_curvemin.columns[0]))
+df_hum_points_corr = pd.DataFrame(corr[0, :, :], index=[
+                           'slope', 'intercept', 'r value', 'p value', 'std'])
 
 
 s_txt = str(sys.argv[1])
