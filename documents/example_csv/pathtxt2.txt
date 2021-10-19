@@ -1,0 +1,6 @@
+alpha=path
+alpha1="./documents/example_csv/cd_values.csv"
+alpha2="./documents/example_csv/cd_values.csv"
+alpha3="./documents/example_csv/cd_values.csv"
+human1="./documents/example_csv/cd_alpha_values.csv"
+human2="./documents/example_csv/cd_alpha_values.csv"
