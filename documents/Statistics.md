@@ -81,15 +81,20 @@ import Statistics
 txt = '.\data\cd_CORO_LAAG_0004.txt'
 files, num_alpha, path_s, alpha_s, human_s = Contrast_detail.strings(txt)
 df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
-df_corr = Statistics.correlation(df_alpha[human_s],df_alpha[alpha_s],human_s, alpha_s)
-print(df_corr)
+corr = Statistics.correlation(df_alpha[human_s],df_alpha[alpha_s],human_s, alpha_s)
+print(corr)
 ```
-It returns a 3-D dataframe (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, R value, p-value and  standard deviation of the estimated slope. The following 2-D dataframe represents one slice of the 3-D dataframe corresponding to n° human = 1. 
+It returns a 3-D matrix (n° humans, paramenters, n°alphas) where the 5 parameters are in the order :  slope, intercept, R value, p-value and  standard deviation of the estimated slope. The following 2-D dataframe represents one slice of the 3-D dataframe corresponding to n° human = 1. 
 
-.|0|1|2|3|4
----|---|---|---|---|---
-slope|5.64028|4.73565|3.00439|1.53995|2.00519
-intercept|-0.14047|-0.145714|-0.139759|-0.0988707|-0.211536
-r value|0.954797|0.963753|0.948873|0.750919|0.790655
-p value|6.18552e-05|2.88116e-05|9.46313e-05|0.0197061|0.0111864
-std|0.663704|0.495498|0.377762|0.51188|0.586888
+```
+[[ 5.64028261e+00,4.73564686e+00,3.00439374e+00,
+1.53994884e+00,2.00518515e+00],
+[ -1.40469543e-01,-1.45714044e-01,-1.39759189e-01,
+-9.88707388e-02,-2.11535745e-01],
+[ 9.54797113e-01,9.63753394e-01,9.48872686e-01,
+7.50918720e-01,7.90655245e-01],
+[ 6.18552260e-05,2.88116476e-05,9.46313135e-05,
+1.97061071e-02,1.11863821e-02],
+[ 6.63704370e-01,4.95497556e-01,
+3.77761859e-01,5.11879667e-01,5.86888143e-01]]
+```
