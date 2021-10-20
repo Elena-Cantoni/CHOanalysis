@@ -22,14 +22,15 @@ print(diff)
 ```
 It returns a float value: ```0.0310362886005352```
 
-## `tot_distances(m_dist, txt_files, n_alpha, df_cd):`
-It estimates matrix filled with distances between CHO and human points referred to the same diameter. The loops used inside the function move between all the contrasts defined for each model with different &alpha; and for each experimental observer.
+## `tot_distances(m_dist, txt_files, n_alpha, df_cd, sub):`
+It estimates matrix filled with distances between CHO and human points referred to the same diameter. The loops used inside the function move between all the contrasts defined for each model with different &alpha; and for each experimental observer. The function works under one condition: titles name given.
 
 #### Parameters:
 - m_dist : empty matrix to be filled
 - txt_files : txt dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
 - df_cd : contrast-detial curve dataframe
+- sub : dataframe used as second term in differences function
 
 #### Example:
 ```
@@ -39,10 +40,10 @@ import minimization
 df_alpha = pd.read_csv('./documents/example_csv/df_alpha.csv')
 files = pd.read_csv('./documents/example_csv/files.csv')
 m_distances = np.ndarray((((len(files['alpha'])-5)), 5, len(df_alpha)))
-m_dist = minimization.tot_distances(m_distances,files,5,df_alpha)
+m_dist = minimization.tot_distances(m_distances,files,5,df_alpha,df_alpha)
 print(m_dist)
 ```
-It returns a 3D matrix with (x = diameters, y = alphas, z = humans). As shown below, an example, selecting one human, is given: 
+It returns a 3D matrix (or 2D, depending on the condition) with (x = diameters, y = alphas, z = humans). As shown below, an example, selecting one human, is given: 
 ```
 [[0.01794054, 0.01523263, 0.00936567, 0.00840046, 0.04273038,0.06800622, 0.13075326, 0.15145885, 0.33511899],
 [0.02104699, 0.02154147, 0.00220749, 0.00166288, 0.03257922,0.05538654, 0.12305929, 0.13882435, 0.31350542],
@@ -75,7 +76,7 @@ It returns a float value which represents the total weighted sum of points dista
 
 ## ```tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha, w)```
 Estimates weighted sum of the distances for each curve and fills a dataframe.
-An overall estimation is led with this function. A weighted sum of distances for each CHO curve  with respect to human observer curve is done and a dataframe is filled.
+An overall estimation is led with this function. A weighted sum of distances for each CHO curve  with respect to human observer curve is done and a dataframe is filled. This function works under a matrix dimension condition.
 
 #### Parameters:
    - m_sum_w_dist : empty matrix to be filled

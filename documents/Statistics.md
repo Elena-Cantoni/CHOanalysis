@@ -40,7 +40,7 @@ The function allows to find which is the CHO &alpha;-dependent curve that minimi
 
 #### Parameters:
 - df_cd : contrast-detial curve dataframe
-- p_mean_std : matrix filled with mean and std of the same diameter points seen by different observers
+- p_mean_std : dataframe filled with mean and std of the same diameter points seen by different observers
 - txt_files : txt dataframe
 - n_alpha : int value representing the number of rows where the word 'alpha' appears
 - list_alphas : alpha names series in dataframe
