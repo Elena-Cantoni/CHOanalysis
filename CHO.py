@@ -22,7 +22,7 @@ df_alpha = Contrast_detail.cd_dataframe(m_contrast, files, path_s)
 m_distances = np.ndarray(
     (((len(files['alpha'])-num_alpha)), num_alpha, len(df_alpha)))
 m_distances = minimization.tot_distances(
-    m_distances, files, num_alpha, df_alpha)
+    m_distances, files, num_alpha, df_alpha, df_alpha)
 
 # Weighted sums dataframe
 sum_w_dist = np.ndarray((num_alpha, (len(files['alpha'])-num_alpha)))
@@ -39,7 +39,7 @@ points_mean_std, df_points_mean_std = Statistics.meanstd_curve(
     df_alpha, num_alpha, human_s)
 # mean observer curve minimization
 df_points_curvemin, df_table_points_curvemin = Statistics.meanobs_minimization(
-    df_alpha, points_mean_std, files, num_alpha, alpha_s, w)
+    df_alpha, df_points_mean_std, files, num_alpha, alpha_s, w)
 
 # Correlation parameters estimated from the averaged human curve
 corr = Statistics.correlation(
