@@ -119,7 +119,7 @@ def test_meanobs_minimization_dim():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         meanstd, df_meanstd = Statistics.meanstd_curve(cd_df, results[1], results[4])
-        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,meanstd,results[0],results[1],results[3],0.1)
+        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,df_meanstd,results[0],results[1],results[3],0.1)
         assert points_min_tab.shape == (1,2)
         assert points_min_cd.shape == (len(cd_df),1)
     
@@ -137,7 +137,7 @@ def test_meanobs_minimization_column():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         meanstd, df_meanstd = Statistics.meanstd_curve(cd_df, results[1], results[4])
-        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,meanstd,results[0],results[1],results[3],0.1)
+        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,df_meanstd,results[0],results[1],results[3],0.1)
         assert any(all(points_min_cd[0] == cd_df[i]) for i in results[3])
 
 def test_meanobs_minimization_consistency():
@@ -153,7 +153,7 @@ def test_meanobs_minimization_consistency():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         meanstd, df_meanstd = Statistics.meanstd_curve(cd_df, results[1], results[4])
-        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,meanstd,results[0],results[1],results[3],0.1)
+        points_min_cd, points_min_tab = Statistics.meanobs_minimization(cd_df,df_meanstd,results[0],results[1],results[3],0.1)
         assert all(cd_df[points_min_tab['min alpha curve'][0]] == points_min_cd[0])
     
 

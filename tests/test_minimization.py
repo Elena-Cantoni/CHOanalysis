@@ -30,7 +30,30 @@ def test_differences_equalzero():
     
 
 """ tot_distances testing """
+def test_tot_distances_dimif():
+    """
+    TEST
+    -------
+    - If, in case df_meanstd is used, it returns a 2D matrix
+    - If, in case df_meanstd is not used, it returns a 3D matrix   
+    - If the matrix elements + second subtraction addend is equal to cd_df element
 
+    """
+    results = Contrast_detail.strings('./documents/example_csv/pathtxt.txt')
+    m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
+    cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
+    df_meanstd = pd.read_csv('./documents/example_csv/meanstd.csv')
+    m_dist = np.ndarray(( results[1], len(cd_df)))
+    m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,df_meanstd)
+    m_dist1 = np.ndarray(((len(results[0]['alpha'])-results[1]),results[1], len(cd_df)))
+    m_dist1 = minimization.tot_distances(m_dist1,results[0],results[1],cd_df,cd_df)
+    assert m_dist.ndim == 2
+    assert m_dist1.ndim == 3
+    for n in range(len(m_dist)):
+        assert m_dist[0,n] + df_meanstd['mean'][n] == cd_df.iloc[0][n+1]
+      
+    
+    
 def test_tot_distances_matrdim():
     """
     TEST
@@ -45,7 +68,7 @@ def test_tot_distances_matrdim():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df)
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df)
         assert isinstance(m_dist,np.ndarray) 
         assert m_dist.shape == (len(results[2])-results[1]-1,results[1],len(cd_df))
 
@@ -62,13 +85,13 @@ def test_tot_distances_matrvals():
     m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
     cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
     m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-    m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df)
+    m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df)
     for hum in range(len(results[0]['alpha'])-results[1]):
         for alpha in range(results[1]):    
             assert all(m_dist[hum,alpha,:] == 0.5)
     zeros = pd.DataFrame(np.zeros((len(pd.read_csv(results[0]['path'][0])),len(results[0]['path'])+1)),columns =results[2])
     m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-    m_dist = minimization.tot_distances(m_dist,results[0],results[1],zeros)
+    m_dist = minimization.tot_distances(m_dist,results[0],results[1],zeros,zeros)
     for hum in range(len(results[0]['alpha'])-results[1]):
         for alpha in range(results[1]):    
             assert all(m_dist[hum,alpha,:] == 0.0)
@@ -128,6 +151,32 @@ def test_weighted_sum_wfactor():
     
 """ tot_weighted_sum testing """
 
+
+def test_tot_weighted_sum_if():
+    """
+    TEST
+    -------
+    - If it returns number of columns equal to the columns of df_meanstd
+    - If it returns number of columns equal to the number of humans
+
+    """
+    results = Contrast_detail.strings('./documents/example_csv/pathtxt.txt')
+    m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
+    cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
+    df_meanstd = pd.read_csv('./documents/example_csv/meanstd.csv')
+    m_dist = np.ndarray(( results[1], len(cd_df)))
+    m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,df_meanstd)
+    m_dist1 = np.ndarray(((len(results[0]['alpha'])-results[1]),results[1], len(cd_df)))
+    m_dist1 = minimization.tot_distances(m_dist1,results[0],results[1],cd_df,cd_df)
+    m_sum_w_dist = np.ndarray((results[1],1))
+    df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
+    m_sum_w_dist1 = np.ndarray((results[1],len(results[4])))
+    df_sum_w_dist1 = minimization.tot_weighted_sum(m_sum_w_dist1,m_dist1,results[0], results[1],0.1)
+
+    assert df_sum_w_dist.shape[1] == 1
+    assert df_sum_w_dist1.shape[1] == len(results[4])
+
+
 def test_tot_weighted_sum_vals():
     """
     TEST
@@ -141,7 +190,7 @@ def test_tot_weighted_sum_vals():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         assert df_sum_w_dist.values.all() >= 0
@@ -160,7 +209,7 @@ def test_tot_weighted_sum_titles():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         print(list(df_sum_w_dist.index))
@@ -180,7 +229,7 @@ def test_tot_weighted_sum_dim():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         assert len(results[0]) == df_sum_w_dist.shape[0] + df_sum_w_dist.shape[1]    
@@ -198,7 +247,7 @@ def test_tot_weighted_sum_correctwsum():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         h = -1
@@ -224,7 +273,7 @@ def test_minimum_dim():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
@@ -245,7 +294,7 @@ def test_minimum_colexist():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
@@ -268,7 +317,7 @@ def test_minimum_mincheck():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
@@ -291,7 +340,7 @@ def test_minimum_titlesexist():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
@@ -312,7 +361,7 @@ def test_minimum_correctdist():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
@@ -334,7 +383,7 @@ def test_minimum_consistency():
         m_contrast = np.ndarray((len(pd.read_csv(results[0]['path'][0])), len(results[0]['path'])+1))
         cd_df = Contrast_detail.cd_dataframe(m_contrast,results[0],results[2])
         m_dist = np.ndarray(((len(results[0]['alpha'])-results[1]), results[1], len(cd_df)))
-        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df) 
+        m_dist = minimization.tot_distances(m_dist,results[0],results[1],cd_df,cd_df) 
         m_sum_w_dist = np.ndarray((results[1],len(results[4])))
         df_sum_w_dist = minimization.tot_weighted_sum(m_sum_w_dist,m_dist,results[0], results[1],0.1)
         min_cd, min_tab = minimization.minimum(cd_df,df_sum_w_dist,results[4],results[3])
