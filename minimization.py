@@ -21,7 +21,7 @@ def differences(cho_point, hum_point):
     return diff
 
 
-def tot_distances(m_dist, txt_files, n_alpha, df_cd):
+def tot_distances(m_dist, txt_files, n_alpha, df_cd, sub):
     """
     Estimates matrix filled with distances between CHO and human points referred to the same diameter.
 
@@ -31,22 +31,32 @@ def tot_distances(m_dist, txt_files, n_alpha, df_cd):
     txt_files : txt dataframe
     n_alpha : int value representing the number of rows where the word 'alpha' appears
     df_cd : contrast-detil curve dataframe
-
+    sub : dataframe used as second term in differences function
+    
     Returns
     -------
     m_dist : distances 3D-matrix (humans,alpha curves,diameters)
 
     """
-    n_hum = -1
-    for humans in np.array(txt_files['alpha'][int(n_alpha):]):
-        n_hum += 1
+    if 'mean' not in sub.columns: #txt_files['alpha'][int(n_alpha):]: #len(df_cd) == len(sub):
+        n_hum = -1
+        for humans in np.array(txt_files['alpha'][int(n_alpha):]):
+            n_hum += 1
+            n_col = -1
+            for col in np.array(txt_files['alpha'][:int(n_alpha)]):
+                n_col += 1
+                for row in range(len(df_cd)):
+                    dist = differences(
+                        df_cd[col][row], sub[humans][row])
+                    m_dist[n_hum][n_col][row] = dist
+    elif 'mean' in sub.columns:
         n_col = -1
         for col in np.array(txt_files['alpha'][:int(n_alpha)]):
             n_col += 1
             for row in range(len(df_cd)):
                 dist = differences(
-                    df_cd[col][row], df_cd[humans][row])
-                m_dist[n_hum][n_col][row] = dist
+                    df_cd[col][row], sub['mean'][row])
+                m_dist[n_col][row] = dist 
 
     return m_dist
 
@@ -114,12 +124,19 @@ def tot_weighted_sum(m_sum_w_dist, m_dist, txt_files, n_alpha, w):
 
     """
     # weighted sum loop
-    for hum in range((len(txt_files['alpha'])-n_alpha)):
+    if m_dist.ndim ==3:
+        for hum in range((len(txt_files['alpha'])-n_alpha)):
+            for col in range(n_alpha):
+                s = weighted_sum(w, m_dist[hum][col])
+                m_sum_w_dist[col][hum] = s
+        df_sum_w_dist = pd.DataFrame(
+            m_sum_w_dist, columns=txt_files['alpha'][int(n_alpha):])
+    elif m_dist.ndim ==2:
         for col in range(n_alpha):
-            s = weighted_sum(w, m_dist[hum][col])
-            m_sum_w_dist[col][hum] = s
-    df_sum_w_dist = pd.DataFrame(
-        m_sum_w_dist, columns=txt_files['alpha'][int(n_alpha):])
+            s = weighted_sum(w, m_dist[col])
+            m_sum_w_dist[col,0] = s
+        df_sum_w_dist = pd.DataFrame(
+            m_sum_w_dist)#, columns=txt_files['alpha'][int(n_alpha):])
 
     return df_sum_w_dist
 

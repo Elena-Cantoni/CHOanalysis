@@ -43,7 +43,7 @@ def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas, w):
     Parameters
     ----------
     df_cd : contrast-detil curve dataframe
-    p_mean_std : matrix filled with mean and std of the same diameter points seen by different observers
+    p_mean_std : dataframe filled with mean and std of the same diameter points seen by different observers
     txt_files : txt dataframe
     n_alpha : int value representing the number of rows where the word 'alpha' appears
     list_alphas : alpha names series in dataframe
@@ -55,25 +55,11 @@ def meanobs_minimization(df_cd, p_mean_std, txt_files, n_alpha, list_alphas, w):
     df_table_points_curvemin : dataframe of minimum distances curves and the referred weighted distances
 
     """
-    points_diff = np.ndarray((int(n_alpha), len(df_cd)))
-    n_col = -1
-    for col in np.array(txt_files['alpha'][:int(n_alpha)]):
-        n_col += 1
-        #print('numero colonna ',n_col,' ',col)
-        for row in range(len(df_cd)):
-            #print('numero riga ',row)
-            dist = minimization.differences(
-                df_cd[col][row], p_mean_std[row, 0])
-            points_diff[n_col][row] = dist
+    m_points_diff = np.ndarray((int(n_alpha), len(df_cd)))
+    points_diff = minimization.tot_distances(m_points_diff,txt_files,n_alpha,df_cd,p_mean_std)
 
-    points_sum_dist = np.ndarray((int(n_alpha), 1))
-    
-    for col in range(int(n_alpha)):
-        #print('col ',col)
-        s = minimization.weighted_sum(w, points_diff[col])
-        points_sum_dist[col, 0] = s
-
-    df_points_sum_dist = pd.DataFrame(points_sum_dist)
+    m_points_sum_dist = np.ndarray((int(n_alpha), 1))
+    df_points_sum_dist = minimization.tot_weighted_sum(m_points_sum_dist,points_diff,txt_files, n_alpha,w)
     
     df_points_curvemin, df_table_points_curvemin = minimization.minimum(df_cd, df_points_sum_dist, range(
         0, 1), list_alphas)
